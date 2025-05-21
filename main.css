@@ -1,0 +1,357 @@
+@charset "UTF-8";
+
+@font-face {
+  font-family:'font-apple-bold';
+  src: url(fonte/sf-pro-display/SFPRODISPLAYBOLD.OTF) format('truetype');
+}
+
+@font-face {
+  font-family:'font-apple-bold-italic';
+  src: url(fonte/sf-pro-display/SFPRODISPLAYBLACKITALIC.OTF) format('truetype');
+}
+
+@font-face{
+  font-family: 'font-apple-medium';
+  src: url(fonte/sf-pro-display/SFPRODISPLAYMEDIUM.OTF) format('truetype');
+}
+
+* {
+  margin: 0px;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f5f5f5;
+  color: #333;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+body.dark-mode {
+  background-color: #242629;
+  color: #f0f0f0;
+}
+
+.container {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 20px 10px;
+  background: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  transition: background 0.3s, box-shadow 0.3s;
+  background-color: #7b7b7d33;
+}
+
+body.dark-mode .container {
+  background: #101010;
+  box-shadow: 0 5px 15px rgba(255, 255, 255, 0.05);
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 40px;
+  font-family: 'font-apple-bold-italic', sans-serif;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+input[type="text"],
+textarea {
+  padding: 12px;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  transition: border 0.3s;
+}
+
+input:focus,
+textarea:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+button {
+  cursor: pointer;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  font-weight: bold;
+  padding: 12px;
+  border-radius: 8px;
+  transition: 0.3s, transform 0.2s;
+}
+
+.sair {
+  cursor: pointer;
+  background-color: #b15213;
+  color: #fff;
+  border: none;
+  font-weight: bold;
+  padding: 15px;
+  border-radius: 8px;
+  transition: 0.3s, transform 0.2s;
+  text-decoration: none;
+  width: 74px;
+  height: 39px;
+  margin-left: 20px;
+  margin-top: 20px;
+}
+
+.sair:hover {
+  background-color: #8a2d09;
+  transform: translateY(-2px);
+}
+
+button:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+}
+
+.custom-file-upload {
+  display: inline-block;
+  padding: 12px 20px;
+  cursor: pointer;
+  background-color: #6c63ff;
+  color: #fff;
+  font-weight: bold;
+  border-radius: 8px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  text-align: center;
+  user-select: none;
+}
+
+.custom-file-upload:hover {
+  background-color: #574fd6;
+  transform: scale(1.03);
+}
+
+.custom-file-upload input[type="file"] {
+  display: none;
+}
+
+.preview-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.preview-container img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+.toggle-mode {
+  background-color: transparent;
+  border: 2px solid #6f00ff;
+  color: #6f00ff;
+  margin-left: 76%;
+}
+
+.toggle-mode:hover {
+  background-color: #6f00ff;
+  color: #fff;
+}
+
+/* Layout em grade para os cards */
+#listaPessoas {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Estilização de cada card */
+#listaPessoas li {
+  background-color: #fafafa;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  margin: 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  transition: background 0.3s;
+  margin-bottom: 20px;
+}
+
+body.dark-mode #listaPessoas li {
+  background-color: #2a2a2a;
+  border-color: #444;
+  color: #eee;
+}
+
+#listaPessoas li strong {
+  margin-bottom: 0.5rem;
+  padding: 15px;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+#listaPessoas li p {
+  margin-bottom: 0.5rem;
+  padding: 15px;
+}
+
+#listaPessoas li img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin: 0.5rem 0;
+}
+
+/* Botão excluir alinhado ao fim do card */
+.delete-btn {
+  margin-top: auto;
+  align-self: flex-end;
+  padding: 8px 16px;
+  background-color: #dc3545;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-weight: bold;
+  transition: background 0.3s;
+  cursor: pointer;
+}
+
+.delete-btn:hover {
+  background-color: #c82333;
+}
+
+.camera-btn {
+  background-color: #28a745;
+  color: #fff;
+  border: none;
+  padding: 12px 35px;
+  border-radius: 8px;
+}
+
+.camera-btn:hover {
+  background-color: #218838;
+}
+
+/* POPUP CAMERA */
+.camera-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.camera-content {
+  background: #fff;
+  padding: 15px 20px 20px 20px;
+  border-radius: 12px;
+  text-align: center;
+  position: relative;
+  max-width: 90%;
+}
+
+.camera-content video {
+  width: 100%;
+  border-radius: 10px;
+  padding: 15px 20px 20px 20px;
+}
+
+.close-popup {
+  float: right;
+  font-size: 20px;
+  background: none;
+  border: none;
+  color: #555;
+  cursor: pointer;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+.close-popup:hover {
+  color: red;
+}
+
+@media (max-width: 768px){
+  body{
+    background-color:white;
+  }
+
+  .toggle-mode {
+    background-color: transparent;
+    border: 2px solid #6f00ff;
+    color: #6f00ff;
+    margin-left: 63%;
+  }
+
+  #listaPessoas {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Estilização de cada card */
+  #listaPessoas li {
+    background-color: #fafafa;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    margin: 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    transition: background 0.3s;
+    margin-bottom: 20px;
+  }
+  
+  body.dark-mode #listaPessoas li {
+    background-color: #2a2a2a;
+    border-color: #444;
+    color: #eee;
+  }
+  
+  #listaPessoas li strong {
+    margin-bottom: 0.5rem;
+    padding: 15px;
+  }
+  
+  #listaPessoas li p {
+    margin-bottom: 0.5rem;
+    padding: 10px;
+  }
+  
+  #listaPessoas li img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin: 0.5rem 0;
+  }
+  
+  /* Botão excluir alinhado ao fim do card */
+  .delete-btn {
+    margin-top: auto;
+    align-self: flex-end;
+    padding: 8px 16px;
+    background-color: #dc3545;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-weight: bold;
+    transition: background 0.3s;
+    cursor: pointer;
+    margin-bottom: 10px;
+    margin-right: 10px;
+  }
+  
+  .delete-btn:hover {
+    background-color: #c82333;
+  }
+}

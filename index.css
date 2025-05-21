@@ -1,0 +1,462 @@
+@charset "UTF-8";
+
+@font-face {
+  font-family:'font-apple-bold';
+  src: url(fonte/sf-pro-display/SFPRODISPLAYBOLD.OTF) format('truetype');
+}
+
+@font-face {
+  font-family:'font-apple-bold-italic';
+  src: url(fonte/sf-pro-display/SFPRODISPLAYBLACKITALIC.OTF) format('truetype');
+}
+
+@font-face{
+  font-family: 'font-apple-medium';
+  src: url(fonte/sf-pro-display/SFPRODISPLAYMEDIUM.OTF) format('truetype');
+}
+
+:root {
+      --brand-color: #D3FF00;
+      --dark-bg: #000;
+      --light-bg: #fff;
+      --text-dark: #111;
+      --text-light: #fff;
+      --padding: 1rem;
+    }
+
+* {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      color: var(--text-dark);
+      background-color: var(--light-bg);
+      line-height: 1.4;
+    }
+    .header {
+      background-color: var(--dark-bg);
+      color: white;
+      text-align: center;
+      padding: 4rem var(--padding) 6rem;
+      position: relative; 
+      padding-top: 30px;
+    }
+    .header .logo {
+      font-size: 1.5rem;
+    font-weight: bold;
+    display: inline-block;
+    margin-bottom: 1rem;
+    display: inline-flex;
+    align-items: center;
+    }
+
+    .logo-glados{
+      width: 50px;
+    }
+
+    .header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+      font-family:'font-apple-bold-italic';
+    }
+
+    .amarelo{
+      color: #D6E22E;
+    }
+    .header p {
+      margin-bottom: 2rem;
+     }
+     .btn-group {
+      display: inline-flex;
+      gap: 1rem;
+      flex-direction: column;
+    }
+
+    .btn {
+      border: 2px solid var(--brand-color);
+      font-family:'font-apple-bold';
+      color: var(--brand-color);
+      background: transparent;
+      padding: 0.75rem 1.5rem;
+      text-decoration: none;
+      font-size: 1rem;
+      border-radius: 4px;
+      transition: background 0.3s, color 0.3s, transform 0.2s;
+      display: inline-flex;
+      align-items: center;
+      border-radius: 40px;
+    }
+
+    .btn:hover {
+      transform: scale(1.05);
+    }
+
+    #open-login{
+      border: 2px solid var(--brand-color);
+      font-family: 'font-apple-bold';
+      background: yellow;
+      padding: 0.75rem 1.5rem;
+      text-decoration: none;
+      font-size: 1rem;
+      border-radius: 4px;
+      transition: background 0.3s, color 0.3s, transform 0.2s;
+      align-items: center;
+      cursor: pointer;
+      border-radius: 40px;  
+    }
+
+    #open-login:hover{
+      transform: scale(1.05);
+    }
+
+    
+    .section {
+      padding: 4rem var(--padding);
+      text-align: center;
+      padding-top: 0px;
+    }
+    .section h2 {
+      font-size: 2.2rem;
+      margin-bottom: 4.5rem;
+      color: var(--text-dark);
+      font-family:'font-apple-bold-italic';
+    }
+    .features {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 3.5rem;
+    }
+    .feature {
+      max-width: 200px;
+      flex: 1 1 150px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 1rem;
+      width: 250px;
+      margin: auto;
+    }
+    .feature .icon {
+      background: rgba(218, 230, 49, 0.6);
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      color: var(--dark-bg);
+    }
+    .feature h3 {
+      font-size: 1.8rem;
+      font-family:'font-apple-bold-italic';
+    }
+    .feature p {
+      font-size: 0.9rem;
+      color: #555;
+    }
+    /* caution tape at bottom */
+    .caution {
+      margin-top: 4rem;
+      background: repeating-linear-gradient(
+        45deg,
+        yellow 0,
+        yellow 20px,
+        black 20px,
+        black 40px
+      );
+      height: 30px;
+    }
+
+    /* CSS DO CARROSEL */
+    /* Container geral do carrossel */
+    .carrossel-wrapper {
+      width: 700px;
+      height: 320px;
+      position: relative;
+      overflow: hidden;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      background: #fff;
+      margin: auto;
+      margin-top: 30px;
+    }
+
+    /* ===== “Tag” fixa no canto superior esquerdo ===== */
+    .carrossel-wrapper .tag {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      top: 15px;
+      left: 15px;
+      background: rgba(238, 70, 18, 0.32);
+      color: #000;
+      font-weight: bold;
+      font-size: 12px;
+      padding: 6px 12px;
+      border-radius: 20px;
+      z-index: 5;
+      font-family:'font-apple-bold';
+    }
+
+    /* ===== Container que agrupa todos os slides lado a lado ===== */
+    .carrossel-slides {
+      display: flex;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.6s ease-in-out;
+      /* A princípio, mostra o primeiro slide (translateX(0%)) */
+      transform: translateX(0%);
+      margin-top: 15px;
+    }
+
+    /* Cada slide tem 100% da largura do wrapper */
+    .slide {
+      flex-shrink: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 30px;
+    }
+
+    /* Conteúdo do texto dentro do slide */
+    .slide .texto {
+      flex: 1;
+      margin-right: 20px;
+    }
+    .slide .texto h3 {
+      font-family:'font-apple-bold-italic';
+      font-style: italic;
+      font-weight: bold;
+      font-size: 25px;
+      margin-bottom: 8px;
+      color: black;
+    }
+    .slide .texto p {
+      font-family: 'font-apple-medium';
+      font-size: 16px;
+      line-height: 1.4;
+      color: #000000a8;
+    }
+
+    /* Imagem dentro do slide */
+    .slide .imagem {
+      flex-shrink: 0;
+    }
+    .slide .imagem img {
+      width: 250px;
+      height: 250px;
+      object-fit: cover;
+      border-radius: 10px;
+      border: 4px solid #d0e246;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    /* ===== Indicadores (bolinhas) ===== */
+    .indicators {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 8px;
+      z-index: 5;
+    }
+    .indicators .dot {
+      width: 12px;
+      height: 12px;
+      background: #ccc;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .indicators .dot.active {
+      background: #333;
+    }
+
+
+    /* DAQ PRA BAIXO É ESTILO DO POP-UP DO LOGIN*/
+
+     .login-box {
+    width: 360px;
+    padding: 30px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    text-align: center;
+    align-content: center;
+  }
+  .message {
+    margin-bottom: 15px;
+    padding: 10px;
+    border-radius: 5px;
+    display: none;
+    text-align: left;
+    font-family: 'font-apple-medium', Arial, Helvetica, sans-serif;
+  }
+  .message.error {
+    background: #f8d7da;
+    color: #721c24;
+    font-family: 'font-apple-medium', Arial, Helvetica, sans-serif;
+  }
+  .message.success {
+    background: #d4edda;
+    color: #155724;font-family: 'font-apple-medium', Arial, Helvetica, sans-serif;
+
+  }
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 20px;
+  }
+  input[type="text"],
+  input[type="email"],
+  input[type="password"] {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  input[type="submit"] {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background: #4285f4;
+    color: white;
+    cursor: pointer;
+    font-family: 'font-apple-bold', Arial, Helvetica, sans-serif;
+  }
+
+  input[type="submit"]:hover{
+    transform: scale(1.05);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    transform: scale(1.05);
+  }
+
+  #google-login {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-family: 'font-apple-bold', Arial, Helvetica, sans-serif;
+  }
+
+  /* POP-UP LOGIN */
+  /* Modal backdrop */
+  .modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+  /* Modal box */
+  .modal-content {
+    background: white;
+    padding: 2rem;
+    border-radius: 6px;
+    max-width: 400px;
+    width: 90%;
+    position: relative;
+  }
+  /* Close button */
+  .modal-close {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    background: transparent;
+    border: none;
+    font-size: 2.3rem;
+    cursor: pointer;
+  }
+  /* Show modal */
+  .modal-backdrop.active {
+    display: flex;
+  }
+  /* esconde a login-box */
+  .login-box { display: block; }
+
+  @media (max-width: 768px){
+    .header {
+        padding: 3rem var(--padding) 4rem;
+        background-image: url(imagens/BG-Preto.jpeg);
+        background-size: contain;
+        height: 545px;
+      }
+      .header h1 {
+        font-size: 2rem;
+         margin-bottom: 1.3rem;
+      }
+      .btn {
+        font-size: 1.2rem;
+      }
+      #open-login{
+        font-size: 1.2rem;
+      }
+      .features {
+        flex-direction: column;
+        gap: 3.5rem;
+      }
+      .feature {
+        max-width: none;
+      }
+
+      .carrossel-wrapper {
+      box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+      width: auto;
+      height: 550px;
+      position: relative;
+      overflow: hidden;
+      border-radius: 12px;
+      background: #fff;
+      margin: auto;
+      margin: 30px 7px 7px 7px;
+    }
+
+    .carrossel-wrapper .tag {
+      top: 23px;
+      left: 15px;
+    }
+
+    .slide {
+      flex-shrink: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      padding: 0px;
+      align-content: center;
+    }
+
+    .slide .texto {
+      flex: 1;
+      margin: auto;
+      padding: 20px;
+    }
+
+    .slide .imagem {
+      flex-shrink: 0;
+      margin: auto;
+    }
+    .slide .imagem img {
+      width: 348px;
+      height: 250px;
+      object-fit: cover;
+      border-radius: 10px;
+      border: 4px solid #d0e246;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+  }
+
+  
