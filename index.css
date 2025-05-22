@@ -216,7 +216,6 @@
     .abas {
       display: flex;
       border-bottom: 1px solid #e0e0e0;
-      background: #fafafa;
       width: 300px;
       margin: 0 auto;
       font-family: 'font-apple-medium';
@@ -286,28 +285,27 @@
     }
 
     .social-icons {
-      display: -webkit-box;
-      display: -ms-flexbox;
-      display: flex;
-      gap: 15px;
-      justify-content: center;
-      margin: 20px 0;
-      flex-wrap: wrap;
-    } 
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin: 20px 0;
+  }
 
   .social-icons a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     width: 44px;
-    color: #fff;
-    text-align-last: center;
-    background-color: #333;
-    padding: 10px;
+    height: 44px;
     border-radius: 50%;
+    background-color: #333;
+    color: #fff;
     text-decoration: none;
-    transition: background 0.3s;
+    transition: background-color 0.3s ease;
   }
 
   .social-icons a:hover {
-    background-color: #a3b639;
+    background-color: #007bff;
   }
 
   .social-icons i {
