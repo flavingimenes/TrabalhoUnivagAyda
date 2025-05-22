@@ -36,7 +36,7 @@
       line-height: 1.4;
     }
     .header {
-      background-color: var(--dark-bg);
+      background-color: black;
       color: white;
       text-align: center;
       padding: 4rem var(--padding) 6rem;
@@ -44,7 +44,7 @@
       padding-top: 30px;
     }
     .header .logo {
-      font-size: 1.5rem;
+    font-size: 1.5rem;
     font-weight: bold;
     display: inline-block;
     margin-bottom: 1rem;
@@ -181,6 +181,108 @@
       height: 30px;
     }
 
+
+
+
+
+    /*CSS SOBRE NOS*/
+    .titulo{
+      font-size: 36px;
+      font-family:'font-apple-bold';
+      text-align: center;
+      margin-top: 150px;
+      margin-bottom: 40px;
+    }
+
+    .sobre-nos{
+      box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, inset rgba(0, 0, 0, 0.3) -1px -1px 20px 0px;
+      background-color: rgba(217, 217, 217, 0.2);
+      padding: 20px;
+    }
+
+    .sobre-nos .titulo {
+      padding: 20px;
+      text-align: center;
+      font-size: 32px;
+      font-weight: bold;
+      color: #222;
+    }
+
+    /* ===== Abas (“tabs”) ===== */
+    .abas {
+      display: flex;
+      border-bottom: 1px solid #e0e0e0;
+      background: #fafafa;
+      width: 300px;
+      place-self: center;
+    }
+    .abas div {
+      flex: 1;
+      text-align: center;
+      padding: 12px 0;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      color: #b1b1b1;
+      transition: background 0.2s, color 0.2s;
+      user-select: none;
+    }
+    .abas div:hover {
+      background: #f0f0f0;
+    }
+    /* Aba ativa */
+    .abas .ativo {
+      background: #fff;
+      color: #000;
+      border-bottom: 3px solid #d0e246; /* cor de destaque */
+    }
+
+    /* ===== Área de conteúdo abaixo das abas ===== */
+    .sobre-nos .conteudo {
+      height: 300px; /* pode ajustar conforme necessidade */
+      padding: 20px;
+      position: relative;
+    }
+    /* Cada painel de conteúdo ocupa 100% e fica posicionado absolutamente */
+    .sobre-nos .painel {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow-y: auto;
+      display: none;
+      color: #333;
+      line-height: 1.5;
+    }
+    /* Painel visível */
+    .sobre-nos .painel.ativo {
+      display: block;
+    }
+
+    /* ===== Exemplo de estilo interno (títulos, parágrafos, imagens) ===== */
+    .painel h4 {
+      font-size: 20px;
+      margin-bottom: 10px;
+      color: #222;
+    }
+    .painel p {
+      font-size: 15px;
+      margin-bottom: 12px;
+    }
+    .painel img {
+      max-width: 100%;
+      border-radius: 8px;
+      margin-top: 12px;
+    }
+    /*FIM CSS SOBRE NOS*/
+
+
+
+
+
+
+
     /* CSS DO CARROSEL */
     /* Container geral do carrossel */
     .carrossel-wrapper {
@@ -290,11 +392,12 @@
       background: #333;
     }
 
-    .sobre-nos{
-      height: 500px;
-      box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, inset rgba(0, 0, 0, 0.3) -1px -1px 20px 0px;
-      background-color: rgba(217, 217, 217, 0.2);
-    }
+    
+    /*FIM CSS CARROSEL*/
+
+
+
+
 
 
     /* DAQ PRA BAIXO É ESTILO DO POP-UP DO LOGIN*/
@@ -361,6 +464,8 @@
     font-family: 'font-apple-bold', Arial, Helvetica, sans-serif;
   }
 
+
+
   /* POP-UP LOGIN */
   /* Modal backdrop */
   .modal-backdrop {
@@ -401,11 +506,16 @@
   /* esconde a login-box */
   .login-box { display: block; }
 
+
+
+
+
   @media (max-width: 768px){
     .header {
+       background-color: white;
         padding: 3rem var(--padding) 4rem;
         background-image: url(imagens/BG-Preto.jpeg);
-        background-size: contain;
+        background-size: cover;
         height: 545px;
       }
       .header h1 {

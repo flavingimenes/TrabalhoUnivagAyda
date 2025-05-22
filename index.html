@@ -133,9 +133,61 @@ keyboard_double_arrow_up
 </div>
 </div>
 
-<div class="sobre-nos">
+
+<article>
+  <div class="titulo">Sobre Nós</div>
+
+    <div class="abas">
+      <div id="tab-ayda" class="ativo">AYDA</div>
+      <div id="tab-visual">VISUAL</div>
+    </div>
+
+  <div class="sobre-nos">
+    <!-- Título principal -->
   
-</div>
+    
+  
+    <!-- Área de conteúdo que muda conforme aba ativada -->
+    <div class="conteudo">
+      <!-- Painel AYDA -->
+      <div id="painel-ayda" class="painel ativo">
+        <h4>Quem Somos (AYDA)</h4>
+        <p>
+          A AYDA é uma empresa fictícia criada para exemplificar como funciona
+          a troca de conteúdo entre abas em um site. Nosso objetivo é fornecer
+          soluções inovadoras e de alta qualidade para todos os nossos clientes.
+        </p>
+        <p>
+          Nossos pilares:
+        </p>
+        <ul>
+          <li>Excelência no atendimento</li>
+          <li>Transparência e confiança</li>
+          <li>Inovação contínua</li>
+        </ul>
+        <img src="https://via.placeholder.com/500x200.png?text=Imagem+AYDA" alt="Exemplo de imagem AYDA">
+      </div>
+  
+      <!-- Painel VISUAL -->
+      <div id="painel-visual" class="painel">
+        <h4>Nosso Estilo (VISUAL)</h4>
+        <p>
+          A aba VISUAL mostra o lado mais gráfico do nosso projeto: como somos
+          vistos pelo público, nosso design, identidade visual e paleta de cores.
+        </p>
+        <p>
+          Características do nosso visual:
+        </p>
+        <ul>
+          <li>Logotipo moderno e minimalista</li>
+          <li>Paleta em tons de verde e cinza</li>
+          <li>Layout responsivo e clean</li>
+        </ul>
+        <img src="https://via.placeholder.com/500x200.png?text=Identidade+Visual" alt="Exemplo de identidade visual">
+      </div>
+    </div>
+  </div>
+</article>
 
 
 
@@ -358,6 +410,34 @@ keyboard_double_arrow_up
       carouselInterval = setInterval(nextSlide, intervalo);
     }
   }
+
+  // Seleciona as abas e os painéis correspondentes
+    const tabAyda = document.getElementById("tab-ayda");
+    const tabVisual = document.getElementById("tab-visual");
+    const painelAyda = document.getElementById("painel-ayda");
+    const painelVisual = document.getElementById("painel-visual");
+
+    // Função para ativar a aba AYDA
+    function ativarAyda() {
+      // Marca a aba AYDA como ativa
+      tabAyda.classList.add("ativo");
+      tabVisual.classList.remove("ativo");
+      // Exibe o painel Ayda, esconde o Visual
+      painelAyda.classList.add("ativo");
+      painelVisual.classList.remove("ativo");
+    }
+
+    // Função para ativar a aba VISUAL
+    function ativarVisual() {
+      tabAyda.classList.remove("ativo");
+      tabVisual.classList.add("ativo");
+      painelAyda.classList.remove("ativo");
+      painelVisual.classList.add("ativo");
+    }
+
+    // Adiciona ouvintes de clique
+    tabAyda.addEventListener("click", ativarAyda);
+    tabVisual.addEventListener("click", ativarVisual);
 
 </script>
 </body>
