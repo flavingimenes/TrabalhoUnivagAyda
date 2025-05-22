@@ -219,6 +219,8 @@
       background: #fafafa;
       width: 300px;
       margin: 0 auto;
+      font-family: 'font-apple-medium';
+      letter-spacing: 2px;
     }
 
     .abas div {
@@ -244,7 +246,7 @@
 
     /* ===== Área de conteúdo abaixo das abas ===== */
     .sobre-nos .conteudo {
-      height: 300px; /* pode ajustar conforme necessidade */
+      height: 400px; /* pode ajustar conforme necessidade */
       padding: 20px;
       position: relative;
     }
