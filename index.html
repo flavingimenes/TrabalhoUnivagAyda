@@ -1,312 +1,340 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Autenticação</title>
-  <link rel="stylesheet" href="index.css">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=keyboard_double_arrow_up" />
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Autenticação</title>
+<link rel="stylesheet" href="index.css">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
-   <header class="header">
-    <div class="logo"><img src="imagens/logo-glados.jpg" alt="logo-glados" class="logo-glados">Ayda</div>
-    <h1><strong class="amarelo">Conheça</strong> Ayda.</h1>
-    <p>Rápido. <strong class="amarelo">Prático.</strong><br>Relato. <strong class="amarelo">Ação.</strong> Progresso.</p>
-    <div class="btn-group">
-      <a href="#" class="btn">SAIBA MAIS</a>
-      <button id="open-login" class="btn-login">ENTRAR</button>
+  <header class="header">
+  <div class="logo"><img src="imagens/logo-glados.jpg" alt="logo-glados" class="logo-glados">Ayda</div>
+  <h1><strong class="amarelo">Conheça</strong> Ayda.</h1>
+  <p>Rápido. <strong class="amarelo">Prático.</strong><br>Relato. <strong class="amarelo">Ação.</strong> Progresso.</p>
+  <div class="btn-group">
+    <a href="#" class="btn">SAIBA MAIS</a>
+    <button id="open-login" class="btn-login">ENTRAR</button>
+  </div>
+</header>
+<div class="separator"></div>
+<section class="section">
+  <h2>Nossa Proposta</h2>
+  <div class="features">
+    <div class="feature">
+      <div class="icon"> 
+        <span class="material-symbols-outlined">
+        add_a_photo
+        </span> 
     </div>
-  </header>
-  <div class="separator"></div>
-  <section class="section">
-    <h2>Nossa Proposta</h2>
-    <div class="features">
-      <div class="feature">
-        <div class="icon">📷</div>
-        <h3>Relato</h3>
-        <p>Tire uma foto do problema ou nos envie uma e deixe registrada junto de uma breve descrição.</p>
-      </div>
-      <div class="feature">
-        <div class="icon">Aa</div>
-        <h3>Narrativa</h3>
-        <p>Deixe junto da sua foto uma curta descrição do problema para que possam entender e solucionar o quanto antes.</p>
-      </div>
-      <div class="feature">
-        <div class="icon">+1</div>
-        <h3>Decisão</h3>
-        <p>Ordene os relatos votando várias vezes ajudando a decidir qual a prioridade a ser solucionada.</p>
-      </div>
-      <div class="feature">
-        <div class="icon">📱</div>
-        <h3>Praticidade</h3>
-        <p>Ajude a comunidade de forma prática, apenas tire uma foto com seu celular e envie.</p>
-      </div>
-      <div class="feature">
-        <div class="icon">📈</div>
-        <h3>Progresso</h3>
-        <p>Participe de uma melhora geral da estrutura da sua região, cada relato faz a diferença!</p>
-      </div>
+      <h3>Relato</h3>
+      <p>Tire uma foto do problema ou nos envie uma e deixe registrada junto de uma breve descrição.</p>
     </div>
-  </section>
-  <div class="caution"></div> 
-
- <div class="carrossel-wrapper">
-    <div class="tag"><span class="material-symbols-outlined">
-keyboard_double_arrow_up
-</span>MAIS RELEVANTES</div>
-
-    <!-- Container que desliza -->
-    <div class="carrossel-slides">
-      <!-- Slide 1 -->
-      <div class="slide">
-        <div class="texto">
-          <h3>“Anônimo”</h3>
-          <p>
-            -  Rua Mar Cáspio, 15, Parque Atlântico.<br>
-            Buraco atrapalhando a circulação dos carros na rua
-          </p>
-        </div>
-        <div class="imagem">
-          <img src="imagens/buraco-na-via.jpg" alt="Buraco na rua" />
-        </div>
-      </div>
-
-      <!-- Slide 2 (exemplo extra) -->
-      <div class="slide">
-        <div class="texto">
-          <h3>“João Silva”</h3>
-          <p>
-            - Avenida das Flores, 120, Centro.<br>
-            Poste de iluminação quebrado há semanas. Precisa de reparo urgente!
-          </p>
-        </div>
-        <div class="imagem">
-          <img src="imagens/poste-quebrado.jpg" alt="Poste quebrado" />
-        </div>
-      </div>
-
-      <!-- Slide 3 (exemplo extra) -->
-      <div class="slide">
-        <div class="texto">
-          <h3>“Maria Oliveira”</h3>
-          <p>
-            - Rua das Laranjeiras, 45, Bairro Alto.<br>
-            Calçada esburacada, perigo para pedestres e cadeirantes.
-          </p>
-        </div>
-        <div class="imagem">
-          <img src="imagens/buraco-calcada.jpg" alt="Buraco na calçada" />
-        </div>
-      </div>
-
-      <!-- Adicione novos <div class="slide">...</div> aqui se precisar de mais avaliações -->
+    <div class="feature">
+      <div class="icon">
+        <span class="material-symbols-outlined">
+        match_case
+        </span>
     </div>
-
-    <!-- Indicadores (bolinhas) -->
-    <div class="indicators">
-      <div class="dot active" data-index="0"></div>
-      <div class="dot" data-index="1"></div>
-      <div class="dot" data-index="2"></div>
-      <!-- Se você adicionar mais slides, acrescente mais <div class="dot" data-index="3"></div> e assim por diante -->
-</div>
-
-  
-  
-  <!-- ESTRUTURA DO POP-UP DE LOGIN -->
-  <div id="login-modal" class="modal-backdrop">
-    <div class="modal-content login-box">
-      <button class="modal-close" id="close-login">&times;</button>
-      <h2>Autenticação</h2>
-      <a href="main.html">MAIN</a>
-      <div id="message" class="message"></div>
-
-      <!-- Formulário de Login -->
-      <form id="login-form" style="display:flex; flex-direction:column;">
-        <input type="text" id="login-identifier" placeholder="E-mail ou Nome de usuário" required />
-        <input type="password" id="login-password" placeholder="Senha" required />
-        <input type="submit" value="Entrar" />
-      </form>
-
-      <!-- Formulário de Cadastro -->
-      <form id="register-form" style="display:none; flex-direction:column;">
-        <input type="text" id="register-username" placeholder="Nome de usuário" required />
-        <input type="email" id="register-email" placeholder="E-mail" required />
-        <input type="password" id="register-password" placeholder="Senha" required />
-        <input type="password" id="register-confirm" placeholder="Confirmar Senha" required />
-        <input type="submit" value="Cadastrar" />
-      </form>
-
-      <p>——— ou  ———</p>
-
-      <!-- Login com Google -->
-      <div id="google-login">
-        <div id="g_id_onload"
-          data-client_id="760527345403-gvthlq5bnv4aqh58uhnksn5inmbis5vr.apps.googleusercontent.com"
-          data-context="signin"
-          data-ux_mode="popup"
-          data-callback="handleCredentialResponse"
-          data-auto_prompt="false">
-        </div>
-        <div class="g_id_signin"
-          data-type="standard"
-          data-theme="outline"
-          data-text="sign_in_with"
-          data-size="large">
-        </div>
-      </div>
-
-      <!-- Toggle between login and register -->
-      <p id="toggle-text">Não possui conta? <a href="#" id="toggle-link">Cadastrar</a></p>
+      <h3>Narrativa</h3>
+      <p>Deixe junto da sua foto uma curta descrição do problema para que possam entender e solucionar o quanto antes.</p>
+    </div>
+    <div class="feature">
+      <div class="icon">
+        <span class="material-symbols-outlined">
+        exposure_plus_1
+        </span>
+    </div>
+      <h3>Decisão</h3>
+      <p>Ordene os relatos votando várias vezes ajudando a decidir qual a prioridade a ser solucionada.</p>
+    </div>
+    <div class="feature">
+      <div class="icon">
+        <span class="material-symbols-outlined">
+        mobile_camera
+        </span>
+    </div>
+      <h3>Praticidade</h3>
+      <p>Ajude a comunidade de forma prática, apenas tire uma foto com seu celular e envie.</p>
+    </div>
+    <div class="feature">
+      <div class="icon">
+        <span class="material-symbols-outlined">
+        monitoring
+        </span>
+    </div>
+      <h3>Progresso</h3>
+      <p>Participe de uma melhora geral da estrutura da sua região, cada relato faz a diferença!</p>
     </div>
   </div>
-  <script>
-    const API_BASE = 'http://localhost:3000';
-    const openBtn = document.getElementById('open-login');
-    const closeBtn = document.getElementById('close-login');
-    const modal   = document.getElementById('login-modal');
+</section>
+<div class="caution"></div> 
 
-    openBtn.addEventListener('click', () => modal.classList.add('active'));
-    closeBtn.addEventListener('click', () => modal.classList.remove('active'));
-    modal.addEventListener('click', e => {
-      if (e.target === modal) modal.classList.remove('active');
-    });
+<div class="carrossel-wrapper">
+<div class="tag">
+  <span class="material-symbols-outlined">
+keyboard_double_arrow_up
+  </span>MAIS RELEVANTES
+</div>
+<!-- Container que desliza -->
+<div class="carrossel-slides">
+  <!-- Slide 1 -->
+  <div class="slide">
+    <div class="texto">
+      <h3>“Anônimo”</h3>
+      <p>
+        -  Rua Mar Cáspio, 15, Parque Atlântico.<br>
+        Buraco atrapalhando a circulação dos carros na rua
+      </p>
+    </div>
+    <div class="imagem">
+      <img src="imagens/buraco-na-via.jpg" alt="Buraco na rua" />
+    </div>
+  </div>
 
-    const loginForm    = document.getElementById('login-form');
-    const registerForm = document.getElementById('register-form');
-    const messageBox   = document.getElementById('message');
-    const toggleText   = document.getElementById('toggle-text');
+  <!-- Slide 2 (exemplo extra) -->
+  <div class="slide">
+    <div class="texto">
+      <h3>“João Silva”</h3>
+      <p>
+        - Avenida das Flores, 120, Centro.<br>
+        Poste de iluminação quebrado há semanas. Precisa de reparo urgente!
+      </p>
+    </div>
+    <div class="imagem">
+      <img src="imagens/poste-quebrado.jpg" alt="Poste quebrado" />
+    </div>
+  </div>
 
-    function showMessage(type, text) {
-      messageBox.className = 'message ' + type;
-      messageBox.textContent = text;
-      messageBox.style.display = 'block';
-      setTimeout(() => { messageBox.style.display = 'none'; }, 5000);
+  <!-- Slide 3 (exemplo extra) -->
+  <div class="slide">
+    <div class="texto">
+      <h3>“Maria Oliveira”</h3>
+      <p>
+        - Rua das Laranjeiras, 45, Bairro Alto.<br>
+        Calçada esburacada, perigo para pedestres e cadeirantes.
+      </p>
+    </div>
+    <div class="imagem">
+      <img src="imagens/buraco-calcada.jpg" alt="Buraco na calçada" />
+    </div>
+  </div>
+
+  <!-- Adicione novos <div class="slide">...</div> aqui se precisar de mais avaliações -->
+</div>
+
+<!-- Indicadores (bolinhas) -->
+<div class="indicators">
+<div class="dot active" data-index="0"></div>
+<div class="dot" data-index="1"></div>
+<div class="dot" data-index="2"></div>
+<!-- Se você adicionar mais slides, acrescente mais <div class="dot" data-index="3"></div> e assim por diante -->
+</div>
+</div>
+
+<div class="sobre-nos">
+  
+</div>
+
+
+
+
+<!-- ESTRUTURA DO POP-UP DE LOGIN -->
+<div id="login-modal" class="modal-backdrop">
+  <div class="modal-content login-box">
+    <button class="modal-close" id="close-login">&times;</button>
+    <h2>Autenticação</h2>
+    <a href="main.html">MAIN</a>
+    <div id="message" class="message"></div>
+
+    <!-- Formulário de Login -->
+    <form id="login-form" style="display:flex; flex-direction:column;">
+      <input type="text" id="login-identifier" placeholder="E-mail ou Nome de usuário" required />
+      <input type="password" id="login-password" placeholder="Senha" required />
+      <input type="submit" value="Entrar" />
+    </form>
+
+    <!-- Formulário de Cadastro -->
+    <form id="register-form" style="display:none; flex-direction:column;">
+      <input type="text" id="register-username" placeholder="Nome de usuário" required />
+      <input type="email" id="register-email" placeholder="E-mail" required />
+      <input type="password" id="register-password" placeholder="Senha" required />
+      <input type="password" id="register-confirm" placeholder="Confirmar Senha" required />
+      <input type="submit" value="Cadastrar" />
+    </form>
+
+    <p>——— ou  ———</p>
+
+    <!-- Login com Google -->
+    <div id="google-login">
+      <div id="g_id_onload"
+        data-client_id="760527345403-gvthlq5bnv4aqh58uhnksn5inmbis5vr.apps.googleusercontent.com"
+        data-context="signin"
+        data-ux_mode="popup"
+        data-callback="handleCredentialResponse"
+        data-auto_prompt="false">
+      </div>
+      <div class="g_id_signin"
+        data-type="standard"
+        data-theme="outline"
+        data-text="sign_in_with"
+        data-size="large">
+      </div>
+    </div>
+
+    <!-- Toggle between login and register -->
+    <p id="toggle-text">Não possui conta? <a href="#" id="toggle-link">Cadastrar</a></p>
+  </div>
+</div>
+
+<script>
+  const API_BASE = 'http://localhost:3000';
+  const openBtn = document.getElementById('open-login');
+  const closeBtn = document.getElementById('close-login');
+  const modal   = document.getElementById('login-modal');
+
+  openBtn.addEventListener('click', () => modal.classList.add('active'));
+  closeBtn.addEventListener('click', () => modal.classList.remove('active'));
+  modal.addEventListener('click', e => {
+    if (e.target === modal) modal.classList.remove('active');
+  });
+
+  const loginForm    = document.getElementById('login-form');
+  const registerForm = document.getElementById('register-form');
+  const messageBox   = document.getElementById('message');
+  const toggleText   = document.getElementById('toggle-text');
+
+  function showMessage(type, text) {
+    messageBox.className = 'message ' + type;
+    messageBox.textContent = text;
+    messageBox.style.display = 'block';
+    setTimeout(() => { messageBox.style.display = 'none'; }, 5000);
+  }
+
+  function handleToggle(e) {
+    e.preventDefault();
+    const title = document.querySelector('.login-box h2');
+    if (loginForm.style.display !== 'none') {
+      loginForm.style.display    = 'none';
+      registerForm.style.display = 'flex';
+      toggleText.innerHTML       = 'Já possui conta? <a href="#" id="toggle-link">Login</a>';
+      title.textContent          = 'Cadastro';
+    } else {
+      registerForm.style.display = 'none';
+      loginForm.style.display    = 'flex';
+      toggleText.innerHTML       = 'Não possui conta? <a href="#" id="toggle-link">Cadastrar</a>';
+      title.textContent          = 'Autenticação';
     }
-
-    function handleToggle(e) {
-      e.preventDefault();
-      const title = document.querySelector('.login-box h2');
-      if (loginForm.style.display !== 'none') {
-        loginForm.style.display    = 'none';
-        registerForm.style.display = 'flex';
-        toggleText.innerHTML       = 'Já possui conta? <a href="#" id="toggle-link">Login</a>';
-        title.textContent          = 'Cadastro';
-      } else {
-        registerForm.style.display = 'none';
-        loginForm.style.display    = 'flex';
-        toggleText.innerHTML       = 'Não possui conta? <a href="#" id="toggle-link">Cadastrar</a>';
-        title.textContent          = 'Autenticação';
-      }
-      document.getElementById('toggle-link').addEventListener('click', handleToggle);
-      messageBox.style.display = 'none';
-    }
-
     document.getElementById('toggle-link').addEventListener('click', handleToggle);
+    messageBox.style.display = 'none';
+  }
 
-    loginForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const identifier = document.getElementById('login-identifier').value;
-      const password   = document.getElementById('login-password').value;
-      try {
-        const res  = await fetch(`${API_BASE}/auth/login`, {
-          method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ identifier, password })
-        });
-        const text = await res.text();
-        if (!res.ok) throw new Error(text);
-        showMessage('success', 'Login bem-sucedido!');
-        setTimeout(() => window.location.href = 'main.html', 800);
-      } catch (err) {
-        showMessage('error', err.message || 'Falha no login.');
-      }
-    });
+  document.getElementById('toggle-link').addEventListener('click', handleToggle);
 
-    registerForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const username = document.getElementById('register-username').value;
-      const email    = document.getElementById('register-email').value;
-      const password = document.getElementById('register-password').value;
-      const confirm  = document.getElementById('register-confirm').value;
-      if (password !== confirm) return showMessage('error', 'Senhas não coincidem.');
-      try {
-        const res  = await fetch(`${API_BASE}/auth/register`, {
-          method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ username, email, password })
-        });
-        const text = await res.text(); if (!res.ok) throw new Error(text);
-        showMessage('success', 'Cadastro realizado!');
-        setTimeout(() => handleToggle(new Event('click')), 500);
-      } catch (err) {
-        showMessage('error', err.message || 'Falha no cadastro.');
-      }
-    });
-
-    async function handleCredentialResponse(response) {
-      try {
-        const res  = await fetch(`${API_BASE}/auth/google`, {
-          method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ token: response.credential })
-        });
-        const text = await res.text(); if (!res.ok) throw new Error(text);
-        showMessage('success', 'Login Google bem-sucedido!');
-        setTimeout(() => window.location.href = 'main.html', 1000);
-      } catch (err) {
-        showMessage('error', err.message || 'Login Google falhou.');
-      }
-    }
-
-
-    /* SCRIPT DO CARROSEL*/
-     // ===== Seleciona elementos =====
-    const slidesContainer = document.querySelector(".carrossel-slides");
-    const allSlides = document.querySelectorAll(".slide");
-    const dots = document.querySelectorAll(".dot");
-    let currentIndex = 0;
-    const intervalo = 5000; // 5 segundos
-
-    // Calcula quantos slides existem
-    const totalSlides = allSlides.length;
-
-    // Função para mostrar o slide de índice `n`
-    function showSlide(n) {
-      // Ajusta a translação do container em % (cada slide ocupa 100% da largura)
-      const quantidadeTranslate = -n * 100;
-      slidesContainer.style.transform = `translateX(${quantidadeTranslate}%)`;
-
-      // Atualiza classe .active nos indicadores
-      dots.forEach(dot => dot.classList.remove("active"));
-      dots[n].classList.add("active");
-
-      currentIndex = n;
-    }
-
-    // Função para avançar para o próximo slide (circular)
-    function nextSlide() {
-      let proximo = currentIndex + 1;
-      if (proximo >= totalSlides) proximo = 0;
-      showSlide(proximo);
-    }
-
-    // Inicia o intervalo automático
-    let carouselInterval = setInterval(nextSlide, intervalo);
-
-    // Quando o usuário clica numa bolinha, vai para aquele slide e reinicia o intervalo
-    dots.forEach(dot => {
-      dot.addEventListener("click", () => {
-        const idx = parseInt(dot.getAttribute("data-index"), 10);
-        showSlide(idx);
-        clearInterval(carouselInterval);
-        carouselInterval = setInterval(nextSlide, intervalo);
+  loginForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const identifier = document.getElementById('login-identifier').value;
+    const password   = document.getElementById('login-password').value;
+    try {
+      const res  = await fetch(`${API_BASE}/auth/login`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ identifier, password })
       });
-    });
+      const text = await res.text();
+      if (!res.ok) throw new Error(text);
+      showMessage('success', 'Login bem-sucedido!');
+      setTimeout(() => window.location.href = 'main.html', 800);
+    } catch (err) {
+      showMessage('error', err.message || 'Falha no login.');
+    }
+  });
 
-    // (Opcional) — Se quiser pausar o autoplay quando o mouse estiver sobre o carrossel:
-    const wrapper = document.querySelector(".carrossel-wrapper");
-    wrapper.addEventListener("mouseenter", () => {
+  registerForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const username = document.getElementById('register-username').value;
+    const email    = document.getElementById('register-email').value;
+    const password = document.getElementById('register-password').value;
+    const confirm  = document.getElementById('register-confirm').value;
+    if (password !== confirm) return showMessage('error', 'Senhas não coincidem.');
+    try {
+      const res  = await fetch(`${API_BASE}/auth/register`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ username, email, password })
+      });
+      const text = await res.text(); if (!res.ok) throw new Error(text);
+      showMessage('success', 'Cadastro realizado!');
+      setTimeout(() => handleToggle(new Event('click')), 500);
+    } catch (err) {
+      showMessage('error', err.message || 'Falha no cadastro.');
+    }
+  });
+
+  async function handleCredentialResponse(response) {
+    try {
+      const res  = await fetch(`${API_BASE}/auth/google`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ token: response.credential })
+      });
+      const text = await res.text(); if (!res.ok) throw new Error(text);
+      showMessage('success', 'Login Google bem-sucedido!');
+      setTimeout(() => window.location.href = 'main.html', 1000);
+    } catch (err) {
+      showMessage('error', err.message || 'Login Google falhou.');
+    }
+  }
+
+
+  /* SCRIPT DO CARROSEL*/
+    // ===== Seleciona elementos =====
+  const slidesContainer = document.querySelector(".carrossel-slides");
+  const allSlides = document.querySelectorAll(".slide");
+  const dots = document.querySelectorAll(".dot");
+  let currentIndex = 0;
+  const intervalo = 5000; // 5 segundos
+
+  // Calcula quantos slides existem
+  const totalSlides = allSlides.length;
+
+  // Função para mostrar o slide de índice `n`
+  function showSlide(n) {
+    // Ajusta a translação do container em % (cada slide ocupa 100% da largura)
+    const quantidadeTranslate = -n * 100;
+    slidesContainer.style.transform = `translateX(${quantidadeTranslate}%)`;
+
+    // Atualiza classe .active nos indicadores
+    dots.forEach(dot => dot.classList.remove("active"));
+    dots[n].classList.add("active");
+
+    currentIndex = n;
+  }
+
+  // Função para avançar para o próximo slide (circular)
+  function nextSlide() {
+    let proximo = currentIndex + 1;
+    if (proximo >= totalSlides) proximo = 0;
+    showSlide(proximo);
+  }
+
+  // Inicia o intervalo automático
+  let carouselInterval = setInterval(nextSlide, intervalo);
+
+  // Quando o usuário clica numa bolinha, vai para aquele slide e reinicia o intervalo
+  dots.forEach(dot => {
+    dot.addEventListener("click", () => {
+      const idx = parseInt(dot.getAttribute("data-index"), 10);
+      showSlide(idx);
       clearInterval(carouselInterval);
-    });
-    wrapper.addEventListener("mouseleave", () => {
       carouselInterval = setInterval(nextSlide, intervalo);
     });
+  });
 
-  </script>
+  // (Opcional) — Se quiser pausar o autoplay quando o mouse estiver sobre o carrossel:
+  const wrapper = document.querySelector(".carrossel-wrapper");
+  wrapper.addEventListener("mouseenter", () => {
+    clearInterval(carouselInterval);
+  });
+  wrapper.addEventListener("mouseleave", () => {
+    carouselInterval = setInterval(nextSlide, intervalo);
+  });
+
+</script>
 </body>
 </html>

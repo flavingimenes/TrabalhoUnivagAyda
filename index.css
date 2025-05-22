@@ -94,6 +94,8 @@
     }
 
     #open-login{
+      all: unset;
+      color: black;
       border: 2px solid var(--brand-color);
       font-family: 'font-apple-bold';
       background: yellow;
@@ -104,7 +106,9 @@
       transition: background 0.3s, color 0.3s, transform 0.2s;
       align-items: center;
       cursor: pointer;
-      border-radius: 40px;  
+      border-radius: 40px;
+      appearance: none;
+      -webkit-appearance: none;  
     }
 
     #open-login:hover{
@@ -115,7 +119,7 @@
     .section {
       padding: 4rem var(--padding);
       text-align: center;
-      padding-top: 0px;
+      padding-top: 35px;
     }
     .section h2 {
       font-size: 2.2rem;
@@ -151,6 +155,11 @@
       font-size: 2rem;
       color: var(--dark-bg);
     }
+
+    .icon > span{
+      font-size: -webkit-xxx-large;
+    }
+
     .feature h3 {
       font-size: 1.8rem;
       font-family:'font-apple-bold-italic';
@@ -183,7 +192,8 @@
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
       background: #fff;
       margin: auto;
-      margin-top: 30px;
+      margin-top: 40px;
+      margin-bottom: 40px;
     }
 
     /* ===== “Tag” fixa no canto superior esquerdo ===== */
@@ -278,6 +288,12 @@
     }
     .indicators .dot.active {
       background: #333;
+    }
+
+    .sobre-nos{
+      height: 500px;
+      box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, inset rgba(0, 0, 0, 0.3) -1px -1px 20px 0px;
+      background-color: rgba(217, 217, 217, 0.2);
     }
 
 
@@ -396,6 +412,9 @@
         font-size: 2rem;
          margin-bottom: 1.3rem;
       }
+      .serction{
+        padding-top: 0px;
+      }
       .btn {
         font-size: 1.2rem;
       }
@@ -419,7 +438,7 @@
       border-radius: 12px;
       background: #fff;
       margin: auto;
-      margin: 30px 7px 7px 7px;
+      margin: 40px 7px 40px 7px;
     }
 
     .carrossel-wrapper .tag {
