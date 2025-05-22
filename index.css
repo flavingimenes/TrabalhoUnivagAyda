@@ -186,6 +186,10 @@
 
 
     /*CSS SOBRE NOS*/
+    article{
+      display: block;
+    }
+
     .titulo{
       font-size: 36px;
       font-family:'font-apple-bold';
@@ -214,8 +218,9 @@
       border-bottom: 1px solid #e0e0e0;
       background: #fafafa;
       width: 300px;
-      margin: auto;
+      margin: 0 auto;
     }
+
     .abas div {
       flex: 1;
       text-align: center;
