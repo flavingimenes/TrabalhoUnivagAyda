@@ -286,11 +286,14 @@
     }
 
     .social-icons {
-    display: flex;
-    gap: 15px;
-    justify-content: center;
-    margin: 20px 0;
-  }
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      margin: 20px 0;
+      flex-wrap: wrap;
+    } 
 
   .social-icons a {
     width: 44px;
