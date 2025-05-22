@@ -288,35 +288,30 @@ keyboard_double_arrow_up
   const allSlides = document.querySelectorAll(".slide");
   const dots = document.querySelectorAll(".dot");
   let currentIndex = 0;
-  const intervalo = 5000; // 5 segundos
-
-  // Calcula quantos slides existem
+  const intervalo = 5000;
   const totalSlides = allSlides.length;
 
-  // Função para mostrar o slide de índice `n`
   function showSlide(n) {
-    // Ajusta a translação do container em % (cada slide ocupa 100% da largura)
-    const quantidadeTranslate = -n * 100;
-    slidesContainer.style.transform = `translateX(${quantidadeTranslate}%)`;
-
-    // Atualiza classe .active nos indicadores
+    slidesContainer.style.transform = `translateX(${-n * 100}%)`;
     dots.forEach(dot => dot.classList.remove("active"));
     dots[n].classList.add("active");
-
     currentIndex = n;
   }
 
-  // Função para avançar para o próximo slide (circular)
   function nextSlide() {
     let proximo = currentIndex + 1;
     if (proximo >= totalSlides) proximo = 0;
     showSlide(proximo);
   }
 
-  // Inicia o intervalo automático
+  function prevSlide() {
+    let anterior = currentIndex - 1;
+    if (anterior < 0) anterior = totalSlides - 1;
+    showSlide(anterior);
+  }
+
   let carouselInterval = setInterval(nextSlide, intervalo);
 
-  // Quando o usuário clica numa bolinha, vai para aquele slide e reinicia o intervalo
   dots.forEach(dot => {
     dot.addEventListener("click", () => {
       const idx = parseInt(dot.getAttribute("data-index"), 10);
@@ -326,7 +321,6 @@ keyboard_double_arrow_up
     });
   });
 
-  // (Opcional) — Se quiser pausar o autoplay quando o mouse estiver sobre o carrossel:
   const wrapper = document.querySelector(".carrossel-wrapper");
   wrapper.addEventListener("mouseenter", () => {
     clearInterval(carouselInterval);
@@ -334,6 +328,36 @@ keyboard_double_arrow_up
   wrapper.addEventListener("mouseleave", () => {
     carouselInterval = setInterval(nextSlide, intervalo);
   });
+
+  // ====== SUPORTE A GESTOS DE TOQUE ======
+  let touchStartX = 0;
+  let touchEndX = 0;
+
+  wrapper.addEventListener("touchstart", (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+  });
+
+  wrapper.addEventListener("touchend", (e) => {
+    touchEndX = e.changedTouches[0].screenX;
+    handleGesture();
+  });
+
+  function handleGesture() {
+    const delta = touchEndX - touchStartX;
+    const minSwipeDistance = 50;
+
+    if (Math.abs(delta) > minSwipeDistance) {
+      if (delta < 0) {
+        // deslizou para a esquerda → próximo slide
+        nextSlide();
+      } else {
+        // deslizou para a direita → slide anterior
+        prevSlide();
+      }
+      clearInterval(carouselInterval);
+      carouselInterval = setInterval(nextSlide, intervalo);
+    }
+  }
 
 </script>
 </body>
