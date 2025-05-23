@@ -311,6 +311,16 @@
   .social-icons i {
     font-size: 20px;
   }
+
+  #instagram{
+  background: linear-gradient(
+    to right,
+    #f9ce34,#ee2a7b,#6228d7); 
+    border-radius: 50%;
+  }
+  #whattsap{
+    color: #40b940;
+  }
     /*FIM CSS SOBRE NOS*/
 
 
