@@ -59,7 +59,7 @@
     .header h1 {
       font-size: 2.5rem;
       margin-bottom: 0.5rem;
-      font-family:'font-apple-bold-italic';
+      font-family:'font-apple-bold-italic', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     }
 
     .amarelo{
@@ -129,7 +129,7 @@
       font-size: 2.2rem;
       margin-bottom: 4.5rem;
       color: var(--text-dark);
-      font-family:'font-apple-bold-italic';
+      font-family:'font-apple-bold-italic', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     }
     .features {
       display: flex;
@@ -166,7 +166,7 @@
 
     .feature h3 {
       font-size: 1.8rem;
-      font-family:'font-apple-bold-italic';
+      font-family:'font-apple-bold-italic', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     }
     .feature p {
       font-size: 0.9rem;
@@ -196,7 +196,7 @@
 
     .titulo{
       font-size: 2.2em;
-      font-family:'font-apple-bold-italic';
+      font-family:'font-apple-bold-italic', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
       text-align: center;
       margin-top: 100px;
       margin-bottom: 40px;
@@ -221,7 +221,7 @@
       border-bottom: 1px solid #e0e0e0;
       width: 300px;
       margin: 0 auto;
-      font-family: 'font-apple-medium';
+      font-family: 'font-apple-medium', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
       letter-spacing: 2px;
     }
 
@@ -273,7 +273,7 @@
       font-size: 20px;
       margin-bottom: 10px;
       color: #222;
-      font-family:'font-apple-bold';
+      font-family:'font-apple-bold', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
       padding: 23px;
     }
     .painel p {
@@ -343,7 +343,7 @@
   .footer-ayda p{
     padding: 0px;
     margin-bottom: 0px;
-    font-family:'font-apple-bold';
+    font-family:'font-apple-bold', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-size: 25px;
     color: black;
   }
@@ -384,7 +384,7 @@
       padding: 6px 12px;
       border-radius: 20px;
       z-index: 5;
-      font-family:'font-apple-bold';
+      font-family:'font-apple-bold', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     }
 
     /* ===== Container que agrupa todos os slides lado a lado ===== */
@@ -415,7 +415,7 @@
       margin-right: 20px;
     }
     .slide .texto h3 {
-      font-family:'font-apple-bold-italic';
+      font-family:'font-apple-bold-italic', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
       font-style: italic;
       font-weight: bold;
       font-size: 25px;
@@ -423,7 +423,7 @@
       color: black;
     }
     .slide .texto p {
-      font-family: 'font-apple-medium';
+      font-family: 'font-apple-medium', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
       font-size: 16px;
       line-height: 1.4;
       color: #000000a8;
@@ -463,11 +463,36 @@
     .indicators .dot.active {
       background: #333;
     }
-
-    
     /*FIM CSS CARROSEL*/
 
 
+
+    /* CSS ASIDE "COMO-USAR"*/
+    .como-usar{
+      height: auto;
+      margin-top: 100px;
+      background-color: #1F1F1F;
+      padding-bottom: 50px;
+    }
+    .como-usar h1{
+      font-family: 'font-apple-bold-italic', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif, sans-serif;
+      color: #DAE631;
+      text-align: center;
+      padding: 25px;
+      padding-top: 40px;
+      font-size: 32px;
+    }
+    .como-usar p{
+      color: white;
+      font-family: 'font-apple-medium', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      margin: auto;
+      margin-top: 20px;
+      font-size: 20px;
+      padding: 30px;
+    }
+    .como-usar strong{
+      color: #DAE631;
+    }
 
 
 
