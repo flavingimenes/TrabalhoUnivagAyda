@@ -208,20 +208,20 @@ keyboard_double_arrow_up
       <div id="painel-visual" class="painel">
         <h4>Nosso Estilo Visual</h4>
         <p>
-          Na <strong>Ayda</strong>, nossa identidade visual foi pensada para transmitir clareza, modernidade e facilidade de uso. Com um fundo branco, reforçamos a sensação de amplitude e leveza em cada espaço da interface. Essa base neutra permite que os elementos fundamentais da marca, <strong>preto</strong> e o amarelo ganhem destaque de forma equilibrada e funcional.
+          Na <strong>Ayda</strong>, nossa identidade visual foi pensada para transmitir clareza, modernidade e facilidade de uso. Com um fundo branco, reforçamos a sensação de amplitude e leveza em cada espaço da interface. Essa base neutra permite que os elementos fundamentais da marca, <strong>preto</strong> e o <strong class="amarelotxt">amarelo</strong> ganhem destaque de forma equilibrada e funcional. 
         </p>
         <p>
-          A base do nosso visual é o fundo branco, que transmite leveza, organização e limpeza, tornando a navegação simples e intuitiva. Sobre esse fundo, as cores principais , <strong>preto</strong> e amarelo  ganham destaque propositalmente, com uma mensagem clara: ação e atenção.
+          A base do nosso visual é o fundo branco, que transmite leveza, organização e limpeza, tornando a navegação simples e intuitiva. Sobre esse fundo, as cores principais , <strong>preto</strong> e <strong class="amarelotxt">amarelo</strong>  ganham destaque propositalmente, com uma <strong>mensagem clara: ação e atenção.</strong>
           <br>
           Essas cores não foram escolhidas por acaso.
-          O amarelo, vibrante e chamativo, é usado mundialmente em sinalizações de alerta, faixas de segurança, obras e reformas. Ele chama o olhar, orienta e diz: “olhe aqui, algo precisa de atenção”.
-          O <strong>preto</strong>, quando combinado com o amarelo, reforça o contraste e evoca imediatamente o universo da engenharia, manutenção e construção civil — reforçando a ideia de que estamos lidando com algo sério, que exige estrutura e resposta.
+          O <strong class="amarelotxt">amarelo</strong>, vibrante e chamativo, é usado mundialmente em sinalizações de alerta, faixas de segurança, obras e reformas. Ele chama o olhar, orienta e diz: <strong>“olhe aqui, algo precisa de atenção”.</strong>
+          O <strong>preto</strong>, quando combinado com o <strong class="amarelotxt">amarelo</strong>, reforça o contraste e evoca imediatamente o universo da engenharia, manutenção e construção civil — reforçando a ideia de que estamos lidando com algo sério, que exige estrutura e resposta.
           <br>
           Essa combinação, comum em capacetes de obra, faixas de interdição e placas de sinalização, comunica visualmente que a Ayda é uma plataforma de ação urbana: aqui se identifica o problema para começar a solução.
           <br>
-          Além do impacto simbólico, a paleta também oferece excelente legibilidade e acessibilidade. O branco garante uma tela limpa; o <strong>preto</strong> facilita a leitura; e o amarelo destaca botões, avisos e interações importantes — tudo isso com contraste suficiente para funcionar em qualquer dispositivo ou ambiente de luz.
+          Além do impacto simbólico, a paleta também oferece excelente legibilidade e acessibilidade. O branco garante uma tela limpa; o <strong>preto</strong> facilita a leitura; e o <strong class="amarelotxt">amarelo</strong> destaca botões, avisos e interações importantes — tudo isso com contraste suficiente para funcionar em qualquer dispositivo ou ambiente de luz.
         </p>
-        <img src="https://via.placeholder.com/500x200.png?text=Identidade+Visual" alt="Exemplo de identidade visual">
+        <img src="imagens/Fita-Amarela.png" alt="Exemplo de identidade visual">
       </div>
     </div>
   </div>
@@ -476,6 +476,24 @@ keyboard_double_arrow_up
     // Adiciona ouvintes de clique
     tabAyda.addEventListener("click", ativarAyda);
     tabVisual.addEventListener("click", ativarVisual);
+
+  // Aguarda o carregamento completo do DOM
+  document.addEventListener('DOMContentLoaded', function() {
+    // Seleciona o botão “SAIBA MAIS” (classe .btn)
+    const btnSaibaMais = document.querySelector('.btn');
+    // Seleciona a seção “Sobre Nós”
+    const secaoSobreNos = document.querySelector('.sobre-nos');
+
+    if (btnSaibaMais && secaoSobreNos) {
+      btnSaibaMais.addEventListener('click', function(evento) {
+        evento.preventDefault(); // Cancela o comportamento padrão do <a href="#">
+        // Faz o scroll suave até a seção
+        secaoSobreNos.scrollIntoView({ behavior: 'smooth' });
+      });
+    }
+  });
+
+
 
 </script>
 </body>
