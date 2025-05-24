@@ -331,7 +331,7 @@
   .footer-ayda{
     display: flex;
     height: 50px;
-   
+    margin-right: 25px;
     align-items: center;
     justify-content: center;
     padding-top: 15px;
