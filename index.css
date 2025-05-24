@@ -335,6 +335,7 @@
     align-items: center;
     justify-content: center;
     padding-top: 15px;
+    margin-bottom: 40px;
   }
   .footer-ayda img{
     width: 50px;
@@ -467,7 +468,7 @@
 
 
 
-    /* CSS ASIDE "COMO-USAR"*/
+    /* CSS ASIDE COMO USAR*/
     .como-usar{
       height: auto;
       background-color: #1F1F1F !important;
