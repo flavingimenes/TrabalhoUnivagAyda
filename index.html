@@ -11,7 +11,7 @@ crossorigin="anonymous" referrerpolicy="no-referrer" />
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
-  <header class="header">
+  <header class="header" id="inicio">
   <div class="logo"><img src="imagens/logo-ayda.jpg" alt="logo-glados" class="logo-glados">Ayda</div>
   <h1><strong class="amarelo">Conheça</strong> Ayda.</h1>
   <p>Rápido. <strong class="amarelo">Prático.</strong><br>Relato. <strong class="amarelo">Ação.</strong> Progresso.</p>
@@ -21,7 +21,7 @@ crossorigin="anonymous" referrerpolicy="no-referrer" />
   </div>
 </header>
 <div class="separator"></div>
-<section class="section">
+<section class="section" id="servicos">
   <h2>Nossa Proposta</h2>
   <div class="features">
     <div class="feature">
@@ -136,7 +136,7 @@ keyboard_double_arrow_up
 </div>
 
 
-<article>
+<article id="sobre">
   <div class="titulo">Sobre Nós</div>
 
     <div class="abas">
@@ -229,23 +229,63 @@ keyboard_double_arrow_up
 <aside class="como-usar">
  <h1>COMO USAR?</h1>
  <p>
-  <strong>1 -</strong> Tire uma foto com seu celular do problema ou 
+  <strong> PASSO 1 -</strong> Tire uma foto com seu celular do problema ou 
       selecione da sua galeria. <br><br>
 
 
-  <strong>2 -</strong> Coloque seu nome ou deixe anônimo, como
+  <strong>PASSO 2 -</strong> Coloque seu nome ou deixe anônimo, como
       preferir. <br><br>
 
 
-  <strong>3 -</strong> Adicione sua localização escrita e junto de 
+  <strong>PASSO 3 -</strong> Adicione sua localização escrita e junto de 
       alguma referência, para facilitar a localização. <br><br>
 
 
-  <strong>4 -</strong> Por fim, descreva oque esta acontecendo, para
+  <strong>PASSO 4 -</strong> Por fim, descreva oque esta acontecendo, para
       um melhor entendimento e facilitar o concerto
       do problema. <br>
  </p>
 </aside>
+<!-- HTML do Footer -->
+<footer class="site-footer">
+  <div class="footer-container">
+    <!-- Seção de navegação -->
+    <nav class="footer-nav">
+      <ul>
+        <li><a href="#inicio">Início</a></li>
+        <li><a href="#sobre">Sobre</a></li>
+        <li><a href="#servicos">Serviços</a></li>
+      </ul>
+    </nav>
+
+    <!-- Seção de ícones sociais -->
+    <div class="footer-social">
+      <div class="footer-logo"><img src="imagens/logo-ayda-png.png" alt="logo-ayda"> <p>Ayda</p></div>
+
+      <a href="https://www.instagram.com/flavio_gabrielll/"target="_blank" aria-label="Instagram">
+        <i class="fab fa-instagram"></i>
+        </a>
+
+        <a href="https://x.com/FlaviioGabriell" target="_blank" aria-label="Twitter">
+        <i class="fa-brands fa-x-twitter"></i>
+        </a>
+
+        <a href="https://wa.me/5565999527412" target="_blank" aria-label="WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+        </a>
+      </a>
+    </div>
+
+    <!-- Copyright -->
+    <div class="footer-copy">
+      <p>Projeto Extensionista Integrador: Prototipagem de Soluções e Artefatos. 2025, 3º Semestre</p>
+    </div>
+  </div>
+</footer>
+
+
+  
+
 
 
 
@@ -296,7 +336,6 @@ keyboard_double_arrow_up
     <p id="toggle-text">Não possui conta? <a href="#" id="toggle-link">Cadastrar</a></p>
   </div>
 </div>
-
 <script>
   const API_BASE = 'http://localhost:3000';
   const openBtn = document.getElementById('open-login');
