@@ -359,7 +359,7 @@
 
 
 
-        /* CSS do Footer */
+    /* CSS do Footer */
     .site-footer {
       background-color: #222;
       color: #eee;
@@ -714,10 +714,10 @@
   @media (max-width: 768px){
     .header {
        background-color: white;
-        padding: 3rem var(--padding) 4rem;
-        background-image: url(imagens/BG-Preto.jpeg);
-        background-size: cover;
-        height: 545px;
+       padding: 3rem var(--padding) 4rem;
+       background-image: url(imagens/BG-Preto.jpeg);
+       background-size: cover;
+       height: 545px;
       }
       .header h1 {
         font-size: 2rem;
