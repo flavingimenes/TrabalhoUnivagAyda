@@ -458,8 +458,9 @@
 
     /* CSS DO CARROSEL */
     /* Container geral do carrossel */
-    .carrosel{
+    .carrossel{
       background-color: #1F1F1F !important;
+      padding: 100px 7px 100px 7px;
     }
 
     .carrossel-wrapper {
@@ -741,7 +742,7 @@
         max-width: none;
       }
 
-      .carrosel{
+      .carrossel{
         padding: 100px 7px 100px 7px;
         background-color: #1F1F1F !important;
       }
