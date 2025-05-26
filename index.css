@@ -599,7 +599,7 @@
     .como-usar strong{
       color: #DAE631;
     }
-    .como-usar a {
+    .como-usar-a {
       display: -webkit-inline-flex;
       display: inline-flex;
       -webkit-align-items: center;
@@ -613,7 +613,7 @@
       color: #D6E22E;
       margin-top: 10px;
       margin-right: 20px;
-}
+    }
     
 
 
