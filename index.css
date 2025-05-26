@@ -458,6 +458,11 @@
 
     /* CSS DO CARROSEL */
     /* Container geral do carrossel */
+    .carrosel{
+      background-color: #1F1F1F;
+      
+    }
+
     .carrossel-wrapper {
       width: 700px;
       height: 320px;
@@ -737,6 +742,10 @@
         max-width: none;
       }
 
+      .carrosel{
+        padding: 100px 7px 100px 7px;
+      }
+
       .carrossel-wrapper {
       box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
       width: auto;
@@ -746,7 +755,7 @@
       border-radius: 12px;
       background: #fff;
       margin: auto;
-      margin: 40px 7px 40px 7px;
+      
     }
 
     .carrossel-wrapper .tag {
