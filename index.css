@@ -599,8 +599,18 @@
     .como-usar strong{
       color: #DAE631;
     }
-
-
+    .como-usar a{
+      display: flex;
+      align-items: center;
+      align-content: center;
+      justify-content: flex-end;
+      text-decoration: none;
+      font-family: 'font-apple-bold', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      color: #D6E22E;
+      margin-top: 10px;
+      margin-right: 20px;
+    }
+    
 
 
     /* DAQ PRA BAIXO E ESTILO DO POP-UP DO LOGIN*/
