@@ -279,37 +279,45 @@
     });
 
     // 9) Capturar foto: desenha no canvas espelhado e exibe no preview (invertido)
-    btnCapturarFoto.addEventListener("click", () => {
-      if (!stream) return;
+btnCapturarFoto.addEventListener("click", () => {
+  if (!stream) return;
 
-      const canvas = document.createElement("canvas");
-      canvas.width = cameraVideo.videoWidth;
-      canvas.height = cameraVideo.videoHeight;
-      const ctx = canvas.getContext("2d");
+  const canvas = document.createElement("canvas");
+  canvas.width = cameraVideo.videoWidth;
+  canvas.height = cameraVideo.videoHeight;
+  const ctx = canvas.getContext("2d");
 
-      // Inverte o canvas horizontalmente antes de desenhar
-      ctx.translate(canvas.width, 0);
-      ctx.scale(-1, 1);
-      ctx.drawImage(cameraVideo, 0, 0, canvas.width, canvas.height);
+  // Correção: não espelha no Safari
+  const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+  if (!isSafari) {
+    ctx.translate(canvas.width, 0);
+    ctx.scale(-1, 1); // Espelha horizontalmente
+  }
 
-      canvas.toBlob(
-        (blob) => {
-          const file = new File([blob], "foto.png", { type: "image/png" });
-          const dt = new DataTransfer();
-          dt.items.add(file);
-          inputImagem.files = dt.files;
+  ctx.drawImage(cameraVideo, 0, 0, canvas.width, canvas.height);
 
-          // Exibe o preview invertido e adiciona a classe para manter espelhado
-          previewImagem.src = URL.createObjectURL(blob);
-          previewContainer.classList.add("invert-camera");
-          previewContainer.style.display = "flex";
+  canvas.toBlob(
+    (blob) => {
+      const file = new File([blob], "foto.png", { type: "image/png" });
+      const dt = new DataTransfer();
+      dt.items.add(file);
+      inputImagem.files = dt.files;
 
-          // Fecha o pop-up da câmera
-          btnFecharCamera.click();
-        },
-        "image/png"
-      );
-    });
+      // Exibe o preview e marca como invertido somente se não for Safari
+      previewImagem.src = URL.createObjectURL(blob);
+      previewContainer.style.display = "flex";
+      if (!isSafari) {
+        previewContainer.classList.add("invert-camera");
+      } else {
+        previewContainer.classList.remove("invert-camera");
+      }
+
+      // Fecha o pop-up da câmera
+      btnFecharCamera.click();
+    },
+    "image/png"
+  );
+  });
 
     navigator.mediaDevices.getUserMedia({ video: true })
   .then(function(stream) {
