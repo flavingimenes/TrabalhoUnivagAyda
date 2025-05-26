@@ -475,7 +475,7 @@
       margin-bottom: 40px;
     }
 
-    /* ===== “Tag” fixa no canto superior esquerdo ===== */
+    /* ===== Tag fixa no canto superior esquerdo ===== */
     .carrossel-wrapper .tag {
       position: absolute;
       display: flex;
@@ -498,7 +498,7 @@
       width: 100%;
       height: 100%;
       transition: transform 0.6s ease-in-out;
-      /* A princípio, mostra o primeiro slide (translateX(0%)) */
+      /* A principio, mostra o primeiro slide (translateX(0%)) */
       transform: translateX(0%);
       margin-top: 15px;
     }
@@ -514,7 +514,7 @@
       padding: 20px 30px;
     }
 
-    /* Conteúdo do texto dentro do slide */
+    /* Conteudo do texto dentro do slide */
     .slide .texto {
       flex: 1;
       margin-right: 20px;
@@ -602,7 +602,7 @@
 
 
 
-    /* DAQ PRA BAIXO É ESTILO DO POP-UP DO LOGIN*/
+    /* DAQ PRA BAIXO E ESTILO DO POP-UP DO LOGIN*/
 
      .login-box {
     width: 360px;
