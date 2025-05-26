@@ -1,45 +1,88 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Cadastro com Imagem</title>
-  <link rel="stylesheet" href="main.css">
+  <link rel="stylesheet" href="main.css" />
+  <!-- Font Awesome (substitua SEU_CODIGO_AQUI pelo seu kit) -->
+  <script src="https://kit.fontawesome.com/SEU_CODIGO_AQUI.js" crossorigin="anonymous"></script>
 </head>
 <body>
-
+  <!-- Botão SAIR -->
   <form action="index.html">
-    <input type="submit" value="SAIR" class="sair">
+    <input type="submit" value="SAIR" class="sair" />
   </form>
 
   <div class="container">
-    <button class="toggle-mode" onclick="toggleModoEscuro()">🌙 Modo Escuro</button>
+    <!-- Botão de alternar modo escuro/claro -->
+    <button class="toggle-mode" id="toggleModoBtn" aria-pressed="false">
+      🌙 <span class="texto-modo">Modo Escuro</span>
+    </button>
+
     <h2>Reportar Um Problema</h2>
     <form id="formPessoa" enctype="multipart/form-data">
-      <input type="text" name="nome" placeholder="Nome" required />
+      <!-- Campo Nome com botão Anônimo -->
+      <div class="field-group">
+        <input
+          type="text"
+          name="nome"
+          id="inputNome"
+          placeholder="Nome"
+          required
+        />
+        <button type="button" class="btn-anonimo" id="btnAnonimo">
+          Anônimo?
+        </button>
+      </div>
+
+      <!-- Campo Relato -->
       <input type="text" name="relato" placeholder="Relato" required />
 
+      <!-- Upload de arquivo -->
       <label class="custom-file-upload">
-        <input type="file" name="imagem" accept="image/*" id="inputImagem" required />
+        <input
+          type="file"
+          name="imagem"
+          accept="image/*"
+          id="inputImagem"
+          required
+        />
         <i class="fas fa-upload"></i> Escolher imagem
       </label>
 
-      <button type="button" class="camera-btn" onclick="abrirCamera()">📸 Tirar foto com câmera</button>
+      <!-- Botão que abre a câmera -->
+      <button type="button" class="camera-btn" id="btnAbrirCamera">
+        📸 Tirar foto com câmera
+      </button>
 
+      <!-- Preview da imagem (selecionada pelo input ou capturada pela câmera) -->
       <div class="preview-container" id="previewContainer" style="display: none;">
-        <img id="previewImagem" />
-        <button type="button" onclick="removerImagem()">❌ Remover imagem</button>
+        <img id="previewImagem" alt="Preview da imagem" />
+        <button type="button" class="btn-remover" id="btnRemoverImagem">
+          ❌ Remover imagem
+        </button>
       </div>
 
-      <button type="submit">Cadastrar</button>
+      <button type="submit" class="btn-submit">Cadastrar</button>
     </form>
   </div>
 
-  <div id="cameraPopup" class="camera-popup" style="display: none;">
+  <!-- Pop-up da câmera -->
+  <div
+    id="cameraPopup"
+    class="camera-popup"
+    style="display: none;"
+    aria-hidden="true"
+  >
     <div class="camera-content">
-      <button class="close-popup" onclick="fecharCamera()">✖</button>
-      <video id="cameraVideo" autoplay></video>
-      <button class="camera-btn" onclick="capturarFoto()">📸 Capturar</button>
+      <button type="button" class="close-popup" id="btnFecharCamera">
+        ✖
+      </button>
+      <video id="cameraVideo" autoplay playsinline></video>
+      <button type="button" class="camera-btn" id="btnCapturarFoto">
+        📸 Capturar
+      </button>
     </div>
   </div>
 
@@ -48,138 +91,228 @@
     <ul id="listaPessoas"></ul>
   </div>
 
-  <script src="server.js"></script>
   <script>
-    const form = document.getElementById('formPessoa');
-    const lista = document.getElementById('listaPessoas');
-    const inputImagem = document.getElementById('inputImagem');
-    const previewContainer = document.getElementById('previewContainer');
-    const previewImagem = document.getElementById('previewImagem');
-    const cameraPopup = document.getElementById('cameraPopup');
-    const cameraVideo = document.getElementById('cameraVideo');
+    // Referências de elementos
+    const toggleModoBtn = document.getElementById("toggleModoBtn");
+    const form = document.getElementById("formPessoa");
+    const lista = document.getElementById("listaPessoas");
+
+    const inputNome = document.getElementById("inputNome");
+    const btnAnonimo = document.getElementById("btnAnonimo");
+    const inputImagem = document.getElementById("inputImagem");
+    const previewContainer = document.getElementById("previewContainer");
+    const previewImagem = document.getElementById("previewImagem");
+    const btnRemoverImagem = document.getElementById("btnRemoverImagem");
+
+    const btnAbrirCamera = document.getElementById("btnAbrirCamera");
+    const cameraPopup = document.getElementById("cameraPopup");
+    const btnFecharCamera = document.getElementById("btnFecharCamera");
+    const cameraVideo = document.getElementById("cameraVideo");
+    const btnCapturarFoto = document.getElementById("btnCapturarFoto");
 
     let stream = null;
 
-    function toggleModoEscuro() {
-      document.body.classList.toggle('dark-mode');
-    }
+    // 1) Alternar modo escuro/claro
+    toggleModoBtn.addEventListener("click", () => {
+      document.body.classList.toggle("dark-mode");
+      const isDark = document.body.classList.contains("dark-mode");
+      toggleModoBtn.setAttribute("aria-pressed", isDark);
+      toggleModoBtn.querySelector(".texto-modo").textContent = isDark
+        ? "Modo Claro"
+        : "Modo Escuro";
+    });
 
-    inputImagem.addEventListener('change', () => {
+    // 2) Botão "Anônimo": torna o campo somente leitura (readonly)
+    btnAnonimo.addEventListener("click", () => {
+      if (!inputNome.readOnly) {
+        // Define "Anônimo" e torna readonly
+        inputNome.value = "Anônimo";
+        inputNome.readOnly = true;
+        btnAnonimo.textContent = "Desfazer Anônimo";
+        inputNome.classList.add("readonly-style");
+      } else {
+        // Remove valor e readonly
+        inputNome.value = "";
+        inputNome.readOnly = false;
+        btnAnonimo.textContent = "Anônimo?";
+        inputNome.classList.remove("readonly-style");
+        inputNome.focus();
+      }
+    });
+
+    // 3) Ao selecionar arquivo manualmente, remova a classe de espelhamento
+    inputImagem.addEventListener("change", () => {
+      previewContainer.classList.remove("invert-camera");
+
       const file = inputImagem.files[0];
       if (file) {
         const reader = new FileReader();
-        reader.onload = e => {
+        reader.onload = (e) => {
           previewImagem.src = e.target.result;
-          previewContainer.style.display = 'flex';
+          previewContainer.style.display = "flex";
         };
         reader.readAsDataURL(file);
       }
     });
 
-    function removerImagem() {
-      inputImagem.value = '';
-      previewImagem.src = '';
-      previewContainer.style.display = 'none';
-    }
-
-    form.addEventListener('submit', async e => {
-      e.preventDefault();
-      const formData = new FormData(form);
-      await fetch('http://localhost:3000/upload', {
-        method: 'POST',
-        body: formData
-      });
-      form.reset();
-      removerImagem();
-      carregarPessoas();
+    // 4) Botão de remover imagem: limpa preview e arquivo
+    btnRemoverImagem.addEventListener("click", () => {
+      inputImagem.value = "";
+      previewImagem.src = "";
+      previewContainer.style.display = "none";
+      previewContainer.classList.remove("invert-camera");
     });
 
-    async function carregarPessoas() {
-      const res = await fetch('http://localhost:3000/pessoas');
-      let pessoas = await res.json();
+    // 5) Envio do formulário
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
 
-      // Adiciona pontuação de localStorage e ordena
-      pessoas = pessoas.map(p => {
-        const pontos = parseInt(localStorage.getItem('pontos_' + p.id)) || 0;
-        return {...p, pontos};
-      }).sort((a, b) => b.pontos - a.pontos);
-
-      lista.innerHTML = '';
-      pessoas.forEach(p => {
-        const li = document.createElement('li');
-        li.innerHTML = `
-          <div class="votacao">
-            <button class="up" data-id="${p.id}">&#8743;</button>
-            <span class="score" id="score_${p.id}">${p.pontos}</span>
-            <button class="down" data-id="${p.id}">&#8744;</button>
-          </div>
-          <strong>${p.nome}</strong>
-          <img src="data:image/jpeg;base64,${p.imagem}" />
-          <p>${p.relato}</p>
-          <button class="delete-btn" onclick="excluirPessoa(${p.id})">🗑️ Excluir</button>
-        `;
-        lista.appendChild(li);
-      });
-
-      // Adiciona event listeners de votação
-      document.querySelectorAll('.votacao button').forEach(btn => {
-        btn.addEventListener('click', e => {
-          const id = e.currentTarget.getAttribute('data-id');
-          const key = 'pontos_' + id;
-          let pontos = parseInt(localStorage.getItem(key)) || 0;
-          pontos += e.currentTarget.classList.contains('up') ? 1 : -1;
-          localStorage.setItem(key, pontos < 0 ? 0 : pontos);
-          carregarPessoas();
+      // Garante que, se estiver em modo Anônimo (readonly), o campo já contém "Anônimo"
+      const formData = new FormData(form);
+      try {
+        await fetch("http://localhost:3000/upload", {
+          method: "POST",
+          body: formData,
         });
-      });
-    }
+        form.reset();
+        btnRemoverImagem.click();
 
-    async function excluirPessoa(id) {
-      if (confirm("Tem certeza que deseja excluir este cadastro?")) {
-        await fetch(`http://localhost:3000/excluir/${id}`, {
-          method: 'DELETE'
-        });
-        localStorage.removeItem('pontos_' + id);
+        // Se o campo Nome estava em modo Anônimo, restaurar ao estado inicial
+        if (inputNome.readOnly) {
+          inputNome.readOnly = false;
+          inputNome.value = "";
+          inputNome.classList.remove("readonly-style");
+          btnAnonimo.textContent = "Anônimo?";
+        }
+
         carregarPessoas();
+      } catch (err) {
+        console.error("Erro ao enviar dados:", err);
+        alert("Ocorreu um erro ao cadastrar. Tente novamente.");
+      }
+    });
+
+    // 6) Carregar lista de pessoas/relatos
+    async function carregarPessoas() {
+      try {
+        const res = await fetch("http://localhost:3000/pessoas");
+        let pessoas = await res.json();
+
+        pessoas = pessoas
+          .map((p) => {
+            const pontos = parseInt(localStorage.getItem("pontos_" + p.id)) || 0;
+            return { ...p, pontos };
+          })
+          .sort((a, b) => b.pontos - a.pontos);
+
+        lista.innerHTML = "";
+
+        pessoas.forEach((p) => {
+          const li = document.createElement("li");
+          li.classList.add("card-pessoa");
+          li.innerHTML = `
+            <div class="votacao">
+              <button class="up btn-voto" data-id="${p.id}" aria-label="Curtir">▲</button>
+              <span class="score" id="score_${p.id}">${p.pontos}</span>
+              <button class="down btn-voto" data-id="${p.id}" aria-label="Descurtir">▼</button>
+            </div>
+            <strong>${p.nome}</strong>
+            <img src="data:image/jpeg;base64,${p.imagem}" alt="Imagem de ${p.nome}" />
+            <p>${p.relato}</p>
+            <button class="delete-btn" data-id="${p.id}" aria-label="Excluir relato">🗑️ Excluir</button>
+          `;
+          lista.appendChild(li);
+        });
+
+        // Eventos de votação
+        document.querySelectorAll(".btn-voto").forEach((btn) => {
+          btn.addEventListener("click", (e) => {
+            const id = e.currentTarget.getAttribute("data-id");
+            const key = "pontos_" + id;
+            let pontos = parseInt(localStorage.getItem(key)) || 0;
+            pontos += e.currentTarget.classList.contains("up") ? 1 : -1;
+            if (pontos < 0) pontos = 0;
+            localStorage.setItem(key, pontos);
+            carregarPessoas();
+          });
+        });
+
+        // Eventos de exclusão
+        document.querySelectorAll(".delete-btn").forEach((btn) => {
+          btn.addEventListener("click", async (e) => {
+            const id = e.currentTarget.getAttribute("data-id");
+            if (confirm("Tem certeza que deseja excluir este cadastro?")) {
+              await fetch(`http://localhost:3000/excluir/${id}`, {
+                method: "DELETE",
+              });
+              localStorage.removeItem("pontos_" + id);
+              carregarPessoas();
+            }
+          });
+        });
+      } catch (err) {
+        console.error("Erro ao carregar lista:", err);
       }
     }
 
-    async function abrirCamera() {
+    // 7) Abrir pop-up da câmera
+    btnAbrirCamera.addEventListener("click", async () => {
       try {
         stream = await navigator.mediaDevices.getUserMedia({ video: true });
         cameraVideo.srcObject = stream;
-        cameraPopup.style.display = 'flex';
+        cameraPopup.style.display = "flex";
+        cameraPopup.setAttribute("aria-hidden", "false");
       } catch (err) {
-        alert('Erro ao acessar a câmera.');
+        alert("Erro ao acessar a câmera.");
         console.error(err);
       }
-    }
+    });
 
-    function fecharCamera() {
+    // 8) Fechar pop-up da câmera
+    btnFecharCamera.addEventListener("click", () => {
       if (stream) {
-        stream.getTracks().forEach(track => track.stop());
+        stream.getTracks().forEach((track) => track.stop());
         stream = null;
       }
-      cameraPopup.style.display = 'none';
-    }
+      cameraPopup.style.display = "none";
+      cameraPopup.setAttribute("aria-hidden", "true");
+    });
 
-    function capturarFoto() {
-      const canvas = document.createElement('canvas');
+    // 9) Capturar foto: desenha no canvas espelhado e exibe no preview (invertido)
+    btnCapturarFoto.addEventListener("click", () => {
+      if (!stream) return;
+
+      const canvas = document.createElement("canvas");
       canvas.width = cameraVideo.videoWidth;
       canvas.height = cameraVideo.videoHeight;
-      canvas.getContext('2d').drawImage(cameraVideo, 0, 0);
-      canvas.toBlob(blob => {
-        const file = new File([blob], 'foto.png', { type: 'image/png' });
-        const dt = new DataTransfer();
-        dt.items.add(file);
-        inputImagem.files = dt.files;
-        previewImagem.src = URL.createObjectURL(blob);
-        previewContainer.style.display = 'flex';
-        fecharCamera();
-      });
-    }
+      const ctx = canvas.getContext("2d");
 
-    carregarPessoas();
+      // Inverte o canvas horizontalmente antes de desenhar
+      ctx.translate(canvas.width, 0);
+      ctx.scale(-1, 1);
+      ctx.drawImage(cameraVideo, 0, 0, canvas.width, canvas.height);
+
+      canvas.toBlob(
+        (blob) => {
+          const file = new File([blob], "foto.png", { type: "image/png" });
+          const dt = new DataTransfer();
+          dt.items.add(file);
+          inputImagem.files = dt.files;
+
+          // Exibe o preview invertido e adiciona a classe para manter espelhado
+          previewImagem.src = URL.createObjectURL(blob);
+          previewContainer.classList.add("invert-camera");
+          previewContainer.style.display = "flex";
+
+          // Fecha o pop-up da câmera
+          btnFecharCamera.click();
+        },
+        "image/png"
+      );
+    });
+
+    // 10) Inicializa a lista ao carregar a página
+    window.addEventListener("DOMContentLoaded", carregarPessoas);
   </script>
 </body>
 </html>
