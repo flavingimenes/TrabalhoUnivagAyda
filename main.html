@@ -278,8 +278,8 @@
       cameraPopup.setAttribute("aria-hidden", "true");
     });
 
-    // 9) Capturar foto: desenha no canvas espelhado e exibe no preview (invertido)
-btnCapturarFoto.addEventListener("click", () => {
+    // 9) Capturar foto: desenha no canvas (espelha só se NÃO for Safari)
+  btnCapturarFoto.addEventListener("click", () => {
   if (!stream) return;
 
   const canvas = document.createElement("canvas");
@@ -287,11 +287,12 @@ btnCapturarFoto.addEventListener("click", () => {
   canvas.height = cameraVideo.videoHeight;
   const ctx = canvas.getContext("2d");
 
-  // Correção: não espelha no Safari
   const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+
+  // Se NÃO for Safari, espelha horizontalmente
   if (!isSafari) {
     ctx.translate(canvas.width, 0);
-    ctx.scale(-1, 1); // Espelha horizontalmente
+    ctx.scale(-1, 1);
   }
 
   ctx.drawImage(cameraVideo, 0, 0, canvas.width, canvas.height);
@@ -303,21 +304,23 @@ btnCapturarFoto.addEventListener("click", () => {
       dt.items.add(file);
       inputImagem.files = dt.files;
 
-      // Exibe o preview e marca como invertido somente se não for Safari
+      // Preview
       previewImagem.src = URL.createObjectURL(blob);
       previewContainer.style.display = "flex";
+
+      // Aplica classe invert-camera só se não for Safari (para manter coerência visual)
       if (!isSafari) {
         previewContainer.classList.add("invert-camera");
       } else {
         previewContainer.classList.remove("invert-camera");
       }
 
-      // Fecha o pop-up da câmera
+      // Fecha pop-up
       btnFecharCamera.click();
     },
     "image/png"
   );
-  });
+});
 
     navigator.mediaDevices.getUserMedia({ video: true })
   .then(function(stream) {
