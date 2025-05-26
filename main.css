@@ -449,6 +449,11 @@ body.dark-mode .votacao {
   transform: translateY(-2px);
 }
 
+video.mirror {
+  transform: scaleX(-1); /* inverte horizontalmente */
+}
+
+
 /* Responsividade */
 @media (max-width: 768px) {
   body {

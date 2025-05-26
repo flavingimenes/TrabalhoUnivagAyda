@@ -311,6 +311,22 @@
       );
     });
 
+    navigator.mediaDevices.getUserMedia({ video: true })
+  .then(function(stream) {
+    const video = document.querySelector('video');
+    video.srcObject = stream;
+
+    // Adiciona classe para espelhar no Safari (principalmente câmera frontal)
+    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+    if (isSafari) {
+      video.classList.add('mirror');
+    }
+  })
+  .catch(function(err) {
+    console.error("Erro ao acessar a câmera:", err);
+  });
+
+
     // 10) Inicializa a lista ao carregar a página
     window.addEventListener("DOMContentLoaded", carregarPessoas);
   </script>
