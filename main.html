@@ -8,7 +8,6 @@
   <!-- Font Awesome (substitua SEU_CODIGO_AQUI pelo seu kit) -->
   <script src="https://kit.fontawesome.com/SEU_CODIGO_AQUI.js" crossorigin="anonymous"></script>
   <style>
-    /* Apenas para garantir que o preview fique visível */
     .preview-container img {
       max-width: 200px;
       margin-top: 10px;
@@ -345,6 +344,7 @@
         currentCameraIndex = 0;
         await startCamera(currentCameraIndex);
 
+        // Exibe o botão de trocar câmera só se houver mais de uma
         btnTrocarCamera.style.display =
           videoDevices.length > 1 ? "inline-block" : "none";
 
@@ -401,9 +401,6 @@
         btnFecharCamera.click();
       }, "image/png");
     });
-
-    // **REMOVIDA** a chamada de getUserMedia para Safari no carregamento da página.
-    // Assim, o Safari não solicitará permissão ao entrar no site — somente no clique em “Tirar foto com câmera”.
 
     // 12) Inicializa lista ao carregar a página
     window.addEventListener("DOMContentLoaded", carregarPessoas);
