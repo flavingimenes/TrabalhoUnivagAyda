@@ -246,7 +246,6 @@
           // Transformar string "YYYY-MM-DD HH:MM:SS" em Date válido:
           let criadoAt = p.criado_em;
           if (typeof criadoAt === "string") {
-            // Substitui o espaço entre data e hora por "T"
             criadoAt = criadoAt.replace(" ", "T");
           }
           const dataFormatada = new Date(criadoAt).toLocaleString("pt-BR");
@@ -333,6 +332,7 @@
       }
     }
 
+    // 8) Abrir pop-up da câmera apenas ao clicar em “Tirar foto com câmera”
     btnAbrirCamera.addEventListener("click", async () => {
       try {
         await getVideoDevices();
@@ -356,7 +356,7 @@
       }
     });
 
-    // 8) Fechar pop-up da câmera
+    // 9) Fechar pop-up da câmera
     btnFecharCamera.addEventListener("click", () => {
       if (stream) {
         stream.getTracks().forEach((track) => track.stop());
@@ -366,14 +366,14 @@
       cameraPopup.setAttribute("aria-hidden", "true");
     });
 
-    // 9) Trocar de câmera
+    // 10) Trocar de câmera
     btnTrocarCamera.addEventListener("click", async () => {
       if (videoDevices.length <= 1) return;
       currentCameraIndex = (currentCameraIndex + 1) % videoDevices.length;
       await startCamera(currentCameraIndex);
     });
 
-    // 10) Capturar foto
+    // 11) Capturar foto
     btnCapturarFoto.addEventListener("click", () => {
       if (!stream) return;
 
@@ -402,21 +402,8 @@
       }, "image/png");
     });
 
-    // 11) Ajuste Safari (opcional)
-    navigator.mediaDevices
-      .getUserMedia({ video: true })
-      .then((testStream) => {
-        const isSafari = /^((?!chrome|android).)*safari/i.test(
-          navigator.userAgent
-        );
-        if (isSafari) {
-          cameraVideo.classList.add("mirror");
-        }
-        testStream.getTracks().forEach((track) => track.stop());
-      })
-      .catch((err) => {
-        console.error("Erro ao verificar Safari:", err);
-      });
+    // **REMOVIDA** a chamada de getUserMedia para Safari no carregamento da página.
+    // Assim, o Safari não solicitará permissão ao entrar no site — somente no clique em “Tirar foto com câmera”.
 
     // 12) Inicializa lista ao carregar a página
     window.addEventListener("DOMContentLoaded", carregarPessoas);
