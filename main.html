@@ -80,9 +80,14 @@
         ✖
       </button>
       <video id="cameraVideo" autoplay playsinline></video>
-      <button type="button" class="camera-btn" id="btnCapturarFoto">
-        📸 Capturar
-      </button>
+      <div style="display: flex; gap: 10px; margin-top: 10px;">
+        <button type="button" class="camera-btn" id="btnTrocarCamera">
+          🔄 Trocar Câmera
+        </button>
+        <button type="button" class="camera-btn" id="btnCapturarFoto">
+          📸 Capturar
+        </button>
+      </div>
     </div>
   </div>
 
@@ -105,12 +110,16 @@
     const btnRemoverImagem = document.getElementById("btnRemoverImagem");
 
     const btnAbrirCamera = document.getElementById("btnAbrirCamera");
-    const cameraPopup = document.getElementById("cameraPopup");
     const btnFecharCamera = document.getElementById("btnFecharCamera");
-    const cameraVideo = document.getElementById("cameraVideo");
     const btnCapturarFoto = document.getElementById("btnCapturarFoto");
+    const btnTrocarCamera = document.getElementById("btnTrocarCamera");
+
+    const cameraPopup = document.getElementById("cameraPopup");
+    const cameraVideo = document.getElementById("cameraVideo");
 
     let stream = null;
+    let currentCameraIndex = 0;
+    let videoDevices = [];
 
     // 1) Alternar modo escuro/claro
     toggleModoBtn.addEventListener("click", () => {
@@ -255,11 +264,47 @@
       }
     }
 
-    // 7) Abrir pop-up da câmera
+    // 7) Obter e iniciar câmeras
+
+    // Obter todas as câmeras disponíveis
+    async function getVideoDevices() {
+      const devices = await navigator.mediaDevices.enumerateDevices();
+      videoDevices = devices.filter(device => device.kind === "videoinput");
+    }
+
+    // Iniciar câmera pelo índice
+    async function startCamera(index) {
+      if (stream) {
+        stream.getTracks().forEach(track => track.stop());
+      }
+
+      const constraints = {
+        video: {
+          deviceId: { exact: videoDevices[index].deviceId }
+        },
+        audio: false
+      };
+
+      stream = await navigator.mediaDevices.getUserMedia(constraints);
+      cameraVideo.srcObject = stream;
+    }
+
+    // Abrir pop-up da câmera
     btnAbrirCamera.addEventListener("click", async () => {
       try {
-        stream = await navigator.mediaDevices.getUserMedia({ video: true });
-        cameraVideo.srcObject = stream;
+        await getVideoDevices();
+
+        if (videoDevices.length === 0) {
+          alert("Nenhuma câmera foi encontrada.");
+          return;
+        }
+
+        currentCameraIndex = 0;
+        await startCamera(currentCameraIndex);
+
+        // Mostrar botão de troca apenas se houver mais de uma câmera
+        btnTrocarCamera.style.display = videoDevices.length > 1 ? "inline-block" : "none";
+
         cameraPopup.style.display = "flex";
         cameraPopup.setAttribute("aria-hidden", "false");
       } catch (err) {
@@ -278,7 +323,14 @@
       cameraPopup.setAttribute("aria-hidden", "true");
     });
 
-    // 9) Capturar foto: desenha no canvas espelhado e exibe no preview (invertido)
+    // 9) Trocar de câmera
+    btnTrocarCamera.addEventListener("click", async () => {
+      if (videoDevices.length <= 1) return;
+      currentCameraIndex = (currentCameraIndex + 1) % videoDevices.length;
+      await startCamera(currentCameraIndex);
+    });
+
+    // 10) Capturar foto: corrige inversão no desktop
     btnCapturarFoto.addEventListener("click", () => {
       if (!stream) return;
 
@@ -287,9 +339,13 @@
       canvas.height = cameraVideo.videoHeight;
       const ctx = canvas.getContext("2d");
 
-      // Inverte o canvas horizontalmente antes de desenhar
-      ctx.translate(canvas.width, 0);
-      ctx.scale(-1, 1);
+      // Detecta se está em dispositivo móvel
+      const isMobile = /Mobi|Android/i.test(navigator.userAgent);
+      if (!isMobile) {
+        // Inverte horizontalmente no desktop para corrigir inversão
+        ctx.translate(canvas.width, 0);
+        ctx.scale(-1, 1);
+      }
       ctx.drawImage(cameraVideo, 0, 0, canvas.width, canvas.height);
 
       canvas.toBlob(
@@ -299,9 +355,9 @@
           dt.items.add(file);
           inputImagem.files = dt.files;
 
-          // Exibe o preview invertido e adiciona a classe para manter espelhado
+          // Exibe o preview (remove qualquer classe de espelhamento)
           previewImagem.src = URL.createObjectURL(blob);
-          previewContainer.classList.add("invert-camera");
+          previewContainer.classList.remove("invert-camera");
           previewContainer.style.display = "flex";
 
           // Fecha o pop-up da câmera
@@ -311,23 +367,20 @@
       );
     });
 
+    // 11) Ajuste para Safari (se necessário)
     navigator.mediaDevices.getUserMedia({ video: true })
-  .then(function(stream) {
-    const video = document.querySelector('video');
-    video.srcObject = stream;
+      .then(function(streamTest) {
+        const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+        if (isSafari) {
+          cameraVideo.classList.add("mirror");
+        }
+        streamTest.getTracks().forEach(track => track.stop());
+      })
+      .catch(function(err) {
+        console.error("Erro ao verificar Safari:", err);
+      });
 
-    // Adiciona classe para espelhar no Safari (principalmente câmera frontal)
-    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-    if (isSafari) {
-      video.classList.add('mirror');
-    }
-  })
-  .catch(function(err) {
-    console.error("Erro ao acessar a câmera:", err);
-  });
-
-
-    // 10) Inicializa a lista ao carregar a página
+    // 12) Inicializa a lista ao carregar a página
     window.addEventListener("DOMContentLoaded", carregarPessoas);
   </script>
 </body>
