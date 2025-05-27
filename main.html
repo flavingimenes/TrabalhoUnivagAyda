@@ -120,6 +120,7 @@
     let stream = null;
     let currentCameraIndex = 0;
     let videoDevices = [];
+    let currentFacingMode = null; // "user" ou "environment"
 
     // 1) Alternar modo escuro/claro
     toggleModoBtn.addEventListener("click", () => {
@@ -272,7 +273,7 @@
       videoDevices = devices.filter(device => device.kind === "videoinput");
     }
 
-    // Iniciar câmera pelo índice
+    // Iniciar câmera pelo índice e ajustar espelhamento com base no facingMode
     async function startCamera(index) {
       if (stream) {
         stream.getTracks().forEach(track => track.stop());
@@ -287,6 +288,18 @@
 
       stream = await navigator.mediaDevices.getUserMedia(constraints);
       cameraVideo.srcObject = stream;
+
+      // Após iniciar, verifica o facingMode do track e aplica transform no vídeo
+      const [track] = stream.getVideoTracks();
+      const settings = track.getSettings();
+      currentFacingMode = settings.facingMode || null;
+
+      // Se for câmera frontal ("user"), espelha o vídeo para o usuário. Caso contrário, não espelha.
+      if (currentFacingMode === "user") {
+        cameraVideo.style.transform = "scaleX(-1)";
+      } else {
+        cameraVideo.style.transform = "none";
+      }
     }
 
     // Abrir pop-up da câmera
@@ -330,7 +343,7 @@
       await startCamera(currentCameraIndex);
     });
 
-    // 10) Capturar foto: corrige inversão no desktop
+    // 10) Capturar foto: verifica facingMode para definir se precisa espelhar no canvas
     btnCapturarFoto.addEventListener("click", () => {
       if (!stream) return;
 
@@ -339,10 +352,8 @@
       canvas.height = cameraVideo.videoHeight;
       const ctx = canvas.getContext("2d");
 
-      // Detecta se está em dispositivo móvel
-      const isMobile = /Mobi|Android/i.test(navigator.userAgent);
-      if (!isMobile) {
-        // Inverte horizontalmente no desktop para corrigir inversão
+      if (currentFacingMode === "user") {
+        // Se for câmera frontal, espelha o desenho no canvas para corresponder ao que o usuário vê
         ctx.translate(canvas.width, 0);
         ctx.scale(-1, 1);
       }
@@ -355,7 +366,7 @@
           dt.items.add(file);
           inputImagem.files = dt.files;
 
-          // Exibe o preview (remove qualquer classe de espelhamento)
+          // Exibe o preview sem qualquer classe de espelhamento:
           previewImagem.src = URL.createObjectURL(blob);
           previewContainer.classList.remove("invert-camera");
           previewContainer.style.display = "flex";
@@ -369,12 +380,12 @@
 
     // 11) Ajuste para Safari (se necessário)
     navigator.mediaDevices.getUserMedia({ video: true })
-      .then(function(streamTest) {
+      .then(function(testStream) {
         const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
         if (isSafari) {
           cameraVideo.classList.add("mirror");
         }
-        streamTest.getTracks().forEach(track => track.stop());
+        testStream.getTracks().forEach(track => track.stop());
       })
       .catch(function(err) {
         console.error("Erro ao verificar Safari:", err);
