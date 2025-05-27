@@ -7,6 +7,28 @@
   <link rel="stylesheet" href="main.css" />
   <!-- Font Awesome (substitua SEU_CODIGO_AQUI pelo seu kit) -->
   <script src="https://kit.fontawesome.com/SEU_CODIGO_AQUI.js" crossorigin="anonymous"></script>
+  <style>
+    /* Apenas para garantir que o preview fique visível */
+    .preview-container img {
+      max-width: 200px;
+      margin-top: 10px;
+    }
+    li.card-pessoa {
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin-bottom: 10px;
+      list-style: none;
+    }
+    .votacao {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .votacao .score {
+      min-width: 24px;
+      text-align: center;
+    }
+  </style>
 </head>
 <body>
   <!-- Botão SAIR -->
@@ -38,6 +60,15 @@
 
       <!-- Campo Relato -->
       <input type="text" name="relato" placeholder="Relato" required />
+
+      <!-- NOVO: Campo Localização -->
+      <input
+        type="text"
+        name="localizacao"
+        id="inputLocalizacao"
+        placeholder="Localização"
+        required
+      />
 
       <!-- Upload de arquivo -->
       <label class="custom-file-upload">
@@ -104,6 +135,7 @@
 
     const inputNome = document.getElementById("inputNome");
     const btnAnonimo = document.getElementById("btnAnonimo");
+    const inputLocalizacao = document.getElementById("inputLocalizacao");
     const inputImagem = document.getElementById("inputImagem");
     const previewContainer = document.getElementById("previewContainer");
     const previewImagem = document.getElementById("previewImagem");
@@ -120,7 +152,7 @@
     let stream = null;
     let currentCameraIndex = 0;
     let videoDevices = [];
-    let currentFacingMode = null; // "user" ou "environment"
+    let currentFacingMode = null; // “user” ou “environment”
 
     // 1) Alternar modo escuro/claro
     toggleModoBtn.addEventListener("click", () => {
@@ -132,16 +164,14 @@
         : "Modo Escuro";
     });
 
-    // 2) Botão "Anônimo": torna o campo somente leitura (readonly)
+    // 2) Botão “Anônimo”: torna o campo somente leitura (readonly)
     btnAnonimo.addEventListener("click", () => {
       if (!inputNome.readOnly) {
-        // Define "Anônimo" e torna readonly
         inputNome.value = "Anônimo";
         inputNome.readOnly = true;
         btnAnonimo.textContent = "Desfazer Anônimo";
         inputNome.classList.add("readonly-style");
       } else {
-        // Remove valor e readonly
         inputNome.value = "";
         inputNome.readOnly = false;
         btnAnonimo.textContent = "Anônimo?";
@@ -150,10 +180,9 @@
       }
     });
 
-    // 3) Ao selecionar arquivo manualmente, remova a classe de espelhamento
+    // 3) Ao selecionar arquivo manualmente, remova espelhamento no preview
     inputImagem.addEventListener("change", () => {
       previewContainer.classList.remove("invert-camera");
-
       const file = inputImagem.files[0];
       if (file) {
         const reader = new FileReader();
@@ -165,7 +194,7 @@
       }
     });
 
-    // 4) Botão de remover imagem: limpa preview e arquivo
+    // 4) Remover imagem
     btnRemoverImagem.addEventListener("click", () => {
       inputImagem.value = "";
       previewImagem.src = "";
@@ -177,7 +206,6 @@
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
 
-      // Garante que, se estiver em modo Anônimo (readonly), o campo já contém "Anônimo"
       const formData = new FormData(form);
       try {
         await fetch("http://localhost:3000/upload", {
@@ -186,15 +214,12 @@
         });
         form.reset();
         btnRemoverImagem.click();
-
-        // Se o campo Nome estava em modo Anônimo, restaurar ao estado inicial
         if (inputNome.readOnly) {
           inputNome.readOnly = false;
           inputNome.value = "";
           inputNome.classList.remove("readonly-style");
           btnAnonimo.textContent = "Anônimo?";
         }
-
         carregarPessoas();
       } catch (err) {
         console.error("Erro ao enviar dados:", err);
@@ -202,7 +227,7 @@
       }
     });
 
-    // 6) Carregar lista de pessoas/relatos
+    // 6) Carregar lista de pessoas/relatos (com localizacao e criado_em corrigido)
     async function carregarPessoas() {
       try {
         const res = await fetch("http://localhost:3000/pessoas");
@@ -218,6 +243,14 @@
         lista.innerHTML = "";
 
         pessoas.forEach((p) => {
+          // Transformar string "YYYY-MM-DD HH:MM:SS" em Date válido:
+          let criadoAt = p.criado_em;
+          if (typeof criadoAt === "string") {
+            // Substitui o espaço entre data e hora por "T"
+            criadoAt = criadoAt.replace(" ", "T");
+          }
+          const dataFormatada = new Date(criadoAt).toLocaleString("pt-BR");
+
           const li = document.createElement("li");
           li.classList.add("card-pessoa");
           li.innerHTML = `
@@ -229,6 +262,8 @@
             <strong>${p.nome}</strong>
             <img src="data:image/jpeg;base64,${p.imagem}" alt="Imagem de ${p.nome}" />
             <p>${p.relato}</p>
+            <p><em>Localização:</em> ${p.localizacao}</p>
+            <p><em>Criado em:</em> ${dataFormatada}</p>
             <button class="delete-btn" data-id="${p.id}" aria-label="Excluir relato">🗑️ Excluir</button>
           `;
           lista.appendChild(li);
@@ -266,35 +301,31 @@
     }
 
     // 7) Obter e iniciar câmeras
-
-    // Obter todas as câmeras disponíveis
     async function getVideoDevices() {
       const devices = await navigator.mediaDevices.enumerateDevices();
-      videoDevices = devices.filter(device => device.kind === "videoinput");
+      videoDevices = devices.filter((d) => d.kind === "videoinput");
     }
 
-    // Iniciar câmera pelo índice e ajustar espelhamento com base no facingMode
     async function startCamera(index) {
       if (stream) {
-        stream.getTracks().forEach(track => track.stop());
+        stream.getTracks().forEach((track) => track.stop());
       }
 
       const constraints = {
         video: {
-          deviceId: { exact: videoDevices[index].deviceId }
+          deviceId: { exact: videoDevices[index].deviceId },
         },
-        audio: false
+        audio: false,
       };
 
       stream = await navigator.mediaDevices.getUserMedia(constraints);
       cameraVideo.srcObject = stream;
 
-      // Após iniciar, verifica o facingMode do track e aplica transform no vídeo
+      // Ajusta espelhamento conforme facingMode
       const [track] = stream.getVideoTracks();
       const settings = track.getSettings();
       currentFacingMode = settings.facingMode || null;
 
-      // Se for câmera frontal ("user"), espelha o vídeo para o usuário. Caso contrário, não espelha.
       if (currentFacingMode === "user") {
         cameraVideo.style.transform = "scaleX(-1)";
       } else {
@@ -302,7 +333,6 @@
       }
     }
 
-    // Abrir pop-up da câmera
     btnAbrirCamera.addEventListener("click", async () => {
       try {
         await getVideoDevices();
@@ -315,8 +345,8 @@
         currentCameraIndex = 0;
         await startCamera(currentCameraIndex);
 
-        // Mostrar botão de troca apenas se houver mais de uma câmera
-        btnTrocarCamera.style.display = videoDevices.length > 1 ? "inline-block" : "none";
+        btnTrocarCamera.style.display =
+          videoDevices.length > 1 ? "inline-block" : "none";
 
         cameraPopup.style.display = "flex";
         cameraPopup.setAttribute("aria-hidden", "false");
@@ -343,7 +373,7 @@
       await startCamera(currentCameraIndex);
     });
 
-    // 10) Capturar foto: verifica facingMode para definir se precisa espelhar no canvas
+    // 10) Capturar foto
     btnCapturarFoto.addEventListener("click", () => {
       if (!stream) return;
 
@@ -353,45 +383,42 @@
       const ctx = canvas.getContext("2d");
 
       if (currentFacingMode === "user") {
-        // Se for câmera frontal, espelha o desenho no canvas para corresponder ao que o usuário vê
         ctx.translate(canvas.width, 0);
         ctx.scale(-1, 1);
       }
       ctx.drawImage(cameraVideo, 0, 0, canvas.width, canvas.height);
 
-      canvas.toBlob(
-        (blob) => {
-          const file = new File([blob], "foto.png", { type: "image/png" });
-          const dt = new DataTransfer();
-          dt.items.add(file);
-          inputImagem.files = dt.files;
+      canvas.toBlob((blob) => {
+        const file = new File([blob], "foto.png", { type: "image/png" });
+        const dt = new DataTransfer();
+        dt.items.add(file);
+        inputImagem.files = dt.files;
 
-          // Exibe o preview sem qualquer classe de espelhamento:
-          previewImagem.src = URL.createObjectURL(blob);
-          previewContainer.classList.remove("invert-camera");
-          previewContainer.style.display = "flex";
+        previewImagem.src = URL.createObjectURL(blob);
+        previewContainer.classList.remove("invert-camera");
+        previewContainer.style.display = "flex";
 
-          // Fecha o pop-up da câmera
-          btnFecharCamera.click();
-        },
-        "image/png"
-      );
+        btnFecharCamera.click();
+      }, "image/png");
     });
 
-    // 11) Ajuste para Safari (se necessário)
-    navigator.mediaDevices.getUserMedia({ video: true })
-      .then(function(testStream) {
-        const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+    // 11) Ajuste Safari (opcional)
+    navigator.mediaDevices
+      .getUserMedia({ video: true })
+      .then((testStream) => {
+        const isSafari = /^((?!chrome|android).)*safari/i.test(
+          navigator.userAgent
+        );
         if (isSafari) {
           cameraVideo.classList.add("mirror");
         }
-        testStream.getTracks().forEach(track => track.stop());
+        testStream.getTracks().forEach((track) => track.stop());
       })
-      .catch(function(err) {
+      .catch((err) => {
         console.error("Erro ao verificar Safari:", err);
       });
 
-    // 12) Inicializa a lista ao carregar a página
+    // 12) Inicializa lista ao carregar a página
     window.addEventListener("DOMContentLoaded", carregarPessoas);
   </script>
 </body>
