@@ -31,15 +31,15 @@
 </head>
 <body>
   <!-- Botão SAIR -->
-  <form action="index.html">
-    <input type="submit" value="SAIR" class="sair" />
-  </form>
+ 
+
+  <button class="toggle-mode" id="toggleModoBtn" aria-pressed="false">
+       <span class="texto-modo">Modo Escuro</span>
+    </button>
 
   <div class="container">
     <!-- Botão de alternar modo escuro/claro -->
-    <button class="toggle-mode" id="toggleModoBtn" aria-pressed="false">
-      🌙 <span class="texto-modo">Modo Escuro</span>
-    </button>
+    
 
     <h2>Reportar Um Problema</h2>
     <form id="formPessoa" enctype="multipart/form-data">
@@ -168,7 +168,7 @@
       if (!inputNome.readOnly) {
         inputNome.value = "Anônimo";
         inputNome.readOnly = true;
-        btnAnonimo.textContent = "Desfazer Anônimo";
+        btnAnonimo.textContent = "Desfazer";
         inputNome.classList.add("readonly-style");
       } else {
         inputNome.value = "";
