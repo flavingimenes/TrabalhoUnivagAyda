@@ -24,6 +24,7 @@ app.use(bodyParser.json());
 app.use(express.static("public"));
 const upload = multer();
 
+// Pool MariaDB para autenticação (banco 'seu_banco')
 const authPool = mariadb.createPool({
   host: "0.tcp.sa.ngrok.io",
   port: 18039,
@@ -33,15 +34,15 @@ const authPool = mariadb.createPool({
   connectionLimit: 10
 });
 
-const pool = mariadb.createPool({
+// Pool MariaDB para imagens (banco 'seu_banco' ou outro, conforme seu setup)
+const mariaPool = mariadb.createPool({
   host: "0.tcp.sa.ngrok.io",
-  port: 18039, 
+  port: 18039,
   user: "root",
   password: "root",
   database: "seu_banco",
   connectionLimit: 5
 });
-
 
 // Cria tabela "usuarios" se não existir
 async function criarTabelaUsuarios() {
@@ -66,7 +67,6 @@ async function criarTabelaUsuarios() {
 }
 criarTabelaUsuarios();
 
-
 // Cria tabela "imagens" se não existir
 async function criarTabelaImagens() {
   let conn;
@@ -89,7 +89,6 @@ async function criarTabelaImagens() {
   }
 }
 criarTabelaImagens();
-
 
 // Registro de usuário (manual)
 app.post("/auth/register", async (req, res) => {
@@ -115,7 +114,6 @@ app.post("/auth/register", async (req, res) => {
     }
   }
 });
-
 
 // Login por e-mail ou nome de usuário
 app.post("/auth/login", async (req, res) => {
@@ -145,7 +143,6 @@ app.post("/auth/login", async (req, res) => {
   }
 });
 
-
 // Autenticação com Google
 app.post("/auth/google", async (req, res) => {
   const { token } = req.body;
@@ -173,7 +170,6 @@ app.post("/auth/google", async (req, res) => {
   }
 });
 
-
 // Upload de imagem com localização
 app.post("/upload", upload.single("imagem"), async (req, res) => {
   const { nome, relato, localizacao } = req.body;
@@ -200,7 +196,6 @@ app.post("/upload", upload.single("imagem"), async (req, res) => {
     if (conn) conn.release();
   }
 });
-
 
 // Busca pessoas com localização e campo criado_em
 app.get("/pessoas", async (req, res) => {
@@ -237,7 +232,6 @@ app.get("/pessoas", async (req, res) => {
   }
 });
 
-
 // Excluir pessoa
 app.delete("/excluir/:id", async (req, res) => {
   const { id } = req.params;
@@ -258,12 +252,10 @@ app.delete("/excluir/:id", async (req, res) => {
   }
 });
 
-
 // Fallback para main.html
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "main.html"));
 });
-
 
 app.listen(port, () => {
   console.log(`Servidor rodando em http://localhost:${port}`);
