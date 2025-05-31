@@ -24,13 +24,12 @@ app.use(bodyParser.json());
 app.use(express.static("public"));
 const upload = multer();
 
-// Pools MariaDB (usando variáveis de ambiente)
 const authPool = mariadb.createPool({
-  host: process.env.MYSQLHOST,               // ex: "0.tcp.ngrok.io" ou "127.0.0.1"
-  port: process.env.MYSQLPORT,               // ex: "12345" (ngrok) ou "3306" (local)
-  user: process.env.MYSQLUSER,               // ex: "railway_user" ou "root"
-  password: process.env.MYSQLPASSWORD,       // ex: "sua_senha_forte" ou "root"
-  database: process.env.MYSQLDATABASE_AUTH,  // ex: "seu_banco"
+  host: "0.tcp.sa.ngrok.io",
+  port: 18039,
+  user: "root",
+  password: "root",
+  database: "seu_banco",
   connectionLimit: 10
 });
 
