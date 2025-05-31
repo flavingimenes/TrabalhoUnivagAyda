@@ -1,4 +1,6 @@
 // server.js
+require("dotenv").config();
+
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
@@ -7,11 +9,12 @@ const bcrypt = require("bcryptjs");
 const { OAuth2Client } = require("google-auth-library");
 const mariadb = require("mariadb");
 const path = require("path");
-require("dotenv").config();
 
 const app = express();
-const port = 3000;
-const CLIENT_ID = "760527345403-gvthlq5bnv4aqh58uhnksn5inmbis5vr.apps.googleusercontent.com";
+const port = process.env.PORT || 3000;
+
+// Variável de ambiente para o Client ID do Google
+const CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 const googleClient = new OAuth2Client(CLIENT_ID);
 
 // Middlewares
@@ -21,57 +24,73 @@ app.use(bodyParser.json());
 app.use(express.static("public"));
 const upload = multer();
 
-// Pool MariaDB para auth (banco 'seu_banco')
+// Pools MariaDB (usando variáveis de ambiente)
 const authPool = mariadb.createPool({
-  host: "127.0.0.1",
-  user: "root",
-  password: "root",
-  database: "seu_banco",
+  host: process.env.MYSQLHOST,               // ex: "0.tcp.ngrok.io" ou "127.0.0.1"
+  port: process.env.MYSQLPORT,               // ex: "12345" (ngrok) ou "3306" (local)
+  user: process.env.MYSQLUSER,               // ex: "railway_user" ou "root"
+  password: process.env.MYSQLPASSWORD,       // ex: "sua_senha_forte" ou "root"
+  database: process.env.MYSQLDATABASE_AUTH,  // ex: "seu_banco"
   connectionLimit: 10
 });
 
 const mariaPool = mariadb.createPool({
-  host: "127.0.0.1",
-  user: "root",
-  password: "root",
-  database: "teste",
+  host: process.env.MYSQLHOST,
+  port: process.env.MYSQLPORT,
+  user: process.env.MYSQLUSER,
+  password: process.env.MYSQLPASSWORD,
+  database: process.env.MYSQLDATABASE_IMAGENS, // ex: "teste"
   connectionLimit: 5
 });
 
 
-// Cria tabela usuarios (se não existir)
+// Cria tabela "usuarios" se não existir
 async function criarTabelaUsuarios() {
-  const conn = await authPool.getConnection();
-  await conn.query(`
-    CREATE TABLE IF NOT EXISTS usuarios (
-      id INT AUTO_INCREMENT PRIMARY KEY,
-      nome VARCHAR(255) UNIQUE,
-      email VARCHAR(255) UNIQUE,
-      senha VARCHAR(255),
-      foto TEXT,
-      criado_em DATETIME DEFAULT CURRENT_TIMESTAMP
-    )
-  `);
-  conn.release();
+  let conn;
+  try {
+    conn = await authPool.getConnection();
+    await conn.query(`
+      CREATE TABLE IF NOT EXISTS usuarios (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        nome VARCHAR(255) UNIQUE,
+        email VARCHAR(255) UNIQUE,
+        senha VARCHAR(255),
+        foto TEXT,
+        criado_em DATETIME DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
+  } catch (err) {
+    console.error("Erro ao criar tabela usuarios:", err);
+  } finally {
+    if (conn) conn.release();
+  }
 }
 criarTabelaUsuarios();
 
-// Cria tabela imagens (se não existir), incluindo coluna localizacao
+
+// Cria tabela "imagens" se não existir
 async function criarTabelaImagens() {
-  const conn = await mariaPool.getConnection();
-  await conn.query(`
-    CREATE TABLE IF NOT EXISTS imagens (
-      id INT AUTO_INCREMENT PRIMARY KEY,
-      nome VARCHAR(255) NOT NULL,
-      relato TEXT NOT NULL,
-      localizacao VARCHAR(255) NOT NULL,
-      imagem LONGBLOB NOT NULL,
-      criado_em DATETIME DEFAULT CURRENT_TIMESTAMP
-    )
-  `);
-  conn.release();
+  let conn;
+  try {
+    conn = await mariaPool.getConnection();
+    await conn.query(`
+      CREATE TABLE IF NOT EXISTS imagens (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        nome VARCHAR(255) NOT NULL,
+        relato TEXT NOT NULL,
+        localizacao VARCHAR(255) NOT NULL,
+        imagem LONGBLOB NOT NULL,
+        criado_em DATETIME DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
+  } catch (err) {
+    console.error("Erro ao criar tabela imagens:", err);
+  } finally {
+    if (conn) conn.release();
+  }
 }
 criarTabelaImagens();
+
 
 // Registro de usuário (manual)
 app.post("/auth/register", async (req, res) => {
@@ -90,13 +109,14 @@ app.post("/auth/register", async (req, res) => {
     res.status(201).send("Cadastro realizado com sucesso.");
   } catch (err) {
     console.error("Erro ao cadastrar usuário:", err);
-    if (err.code === 'ER_DUP_ENTRY') {
+    if (err.code === "ER_DUP_ENTRY") {
       res.status(409).send("Nome de usuário ou e-mail já estão em uso.");
     } else {
       res.status(500).send("Erro interno ao cadastrar usuário.");
     }
   }
 });
+
 
 // Login por e-mail ou nome de usuário
 app.post("/auth/login", async (req, res) => {
@@ -126,13 +146,18 @@ app.post("/auth/login", async (req, res) => {
   }
 });
 
+
 // Autenticação com Google
 app.post("/auth/google", async (req, res) => {
   const { token } = req.body;
   try {
-    const ticket = await googleClient.verifyIdToken({ idToken: token, audience: CLIENT_ID });
+    const ticket = await googleClient.verifyIdToken({
+      idToken: token,
+      audience: CLIENT_ID
+    });
     const payload = ticket.getPayload();
     const { name, email, picture } = payload;
+
     const conn = await authPool.getConnection();
     const rows = await conn.query("SELECT id FROM usuarios WHERE email = ?", [email]);
     if (rows.length === 0) {
@@ -149,7 +174,8 @@ app.post("/auth/google", async (req, res) => {
   }
 });
 
-// Upload de imagem com localizacao
+
+// Upload de imagem com localização
 app.post("/upload", upload.single("imagem"), async (req, res) => {
   const { nome, relato, localizacao } = req.body;
   const imagem = req.file?.buffer;
@@ -159,6 +185,7 @@ app.post("/upload", upload.single("imagem"), async (req, res) => {
   if (!localizacao) {
     return res.status(400).send("Campo 'localizacao' é obrigatório.");
   }
+
   let conn;
   try {
     conn = await mariaPool.getConnection();
@@ -175,7 +202,8 @@ app.post("/upload", upload.single("imagem"), async (req, res) => {
   }
 });
 
-// Busca pessoas com localizacao e criado_em
+
+// Busca pessoas com localização e campo criado_em
 app.get("/pessoas", async (req, res) => {
   let conn;
   try {
@@ -210,6 +238,7 @@ app.get("/pessoas", async (req, res) => {
   }
 });
 
+
 // Excluir pessoa
 app.delete("/excluir/:id", async (req, res) => {
   const { id } = req.params;
@@ -230,10 +259,12 @@ app.delete("/excluir/:id", async (req, res) => {
   }
 });
 
+
 // Fallback para main.html
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "main.html"));
 });
+
 
 app.listen(port, () => {
   console.log(`Servidor rodando em http://localhost:${port}`);
