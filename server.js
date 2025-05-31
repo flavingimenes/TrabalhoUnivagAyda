@@ -1,13 +1,14 @@
+// Captura erros globais para não deixar o processo morrer silenciosamente
 process.on('uncaughtException', (err) => {
   console.error('Uncaught Exception:', err);
+  // opcional: process.exit(1); // para reiniciar o processo (depende da sua estratégia)
 });
 
 process.on('unhandledRejection', (err) => {
   console.error('Unhandled Rejection:', err);
+  // opcional: process.exit(1);
 });
 
-
-// server.js
 require("dotenv").config();
 
 const express = require("express");
@@ -23,6 +24,9 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 const CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
+if (!CLIENT_ID) {
+  console.warn("⚠️ GOOGLE_CLIENT_ID não definido no .env");
+}
 const googleClient = new OAuth2Client(CLIENT_ID);
 
 // Middlewares
@@ -30,6 +34,7 @@ app.use(cors());
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(express.static("public"));
+
 const upload = multer({ limits: { fileSize: 5 * 1024 * 1024 } }); // 5 MB
 
 // Pools MariaDB
@@ -51,7 +56,19 @@ const pool = mariadb.createPool({
   connectionLimit: 5
 });
 
-// Cria tabela "usuarios" se não existir
+// Função para verificar se a conexão está ok
+async function testarConexao() {
+  try {
+    const conn = await pool.getConnection();
+    conn.release();
+    console.log("Conexão ao banco MariaDB OK.");
+  } catch (err) {
+    console.error("Erro na conexão com o banco:", err);
+  }
+}
+testarConexao();
+
+// Cria tabelas se não existirem
 async function criarTabelaUsuarios() {
   let conn;
   try {
@@ -66,6 +83,7 @@ async function criarTabelaUsuarios() {
         criado_em DATETIME DEFAULT CURRENT_TIMESTAMP
       )
     `);
+    console.log("Tabela usuarios verificada/criada.");
   } catch (err) {
     console.error("Erro ao criar tabela usuarios:", err);
   } finally {
@@ -73,6 +91,29 @@ async function criarTabelaUsuarios() {
   }
 }
 criarTabelaUsuarios();
+
+async function criarTabelaImagens() {
+  let conn;
+  try {
+    conn = await pool.getConnection();
+    await conn.query(`
+      CREATE TABLE IF NOT EXISTS imagens (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        nome VARCHAR(255) NOT NULL,
+        relato TEXT NOT NULL,
+        localizacao VARCHAR(255) NOT NULL,
+        imagem LONGBLOB NOT NULL,
+        criado_em DATETIME DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
+    console.log("Tabela imagens verificada/criada.");
+  } catch (err) {
+    console.error("Erro ao criar tabela imagens:", err);
+  } finally {
+    if (conn) conn.release();
+  }
+}
+criarTabelaImagens();
 
 // Cria tabela "imagens" se não existir
 async function criarTabelaImagens() {
