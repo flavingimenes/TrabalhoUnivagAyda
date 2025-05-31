@@ -23,20 +23,21 @@ const upload = multer();
 
 // Pool MariaDB para auth (banco 'seu_banco')
 const authPool = mariadb.createPool({
-  host: "localhost",
+  host: "127.0.0.1",
   user: "root",
   password: "root",
-  database: "seu_banco",  // aqui deve existir mesmo
+  database: "seu_banco",
   connectionLimit: 10
 });
 
 const mariaPool = mariadb.createPool({
-  host: "localhost",
+  host: "127.0.0.1",
   user: "root",
   password: "root",
-  database: "teste",      // aqui também
+  database: "teste",
   connectionLimit: 5
 });
+
 
 // Cria tabela usuarios (se não existir)
 async function criarTabelaUsuarios() {
