@@ -7,6 +7,7 @@ const bcrypt = require("bcryptjs");
 const { OAuth2Client } = require("google-auth-library");
 const mariadb = require("mariadb");
 const path = require("path");
+require("dotenv").config();
 
 const app = express();
 const port = 3000;
@@ -25,16 +26,15 @@ const authPool = mariadb.createPool({
   host: "localhost",
   user: "root",
   password: "root",
-  database: "seu_banco",
+  database: "seu_banco",  // aqui deve existir mesmo
   connectionLimit: 10
 });
 
-// Pool MariaDB para imagens (banco 'teste')
 const mariaPool = mariadb.createPool({
   host: "localhost",
   user: "root",
   password: "root",
-  database: "teste",
+  database: "teste",      // aqui também
   connectionLimit: 5
 });
 
