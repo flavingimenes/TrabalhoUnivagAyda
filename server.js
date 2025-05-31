@@ -249,6 +249,7 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "main.html"));
 });
 
-app.listen(port, () => {
+// Atenção: ouvir em 0.0.0.0 para funcionar no Railway
+app.listen(port, "0.0.0.0", () => {
   console.log(`Servidor rodando na porta ${port}`);
 });
