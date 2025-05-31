@@ -296,7 +296,7 @@ app.delete("/excluir/:id", async (req, res) => {
 
 // Fallback para main.html
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "main.html"));
+  res.sendFile(path.join(__dirname, "ProjetoIntegradorIII", "main.html"));
 });
 
 // Atenção: ouvir em 0.0.0.0 para funcionar no Railway
