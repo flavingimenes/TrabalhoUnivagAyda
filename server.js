@@ -13,7 +13,6 @@ const path = require("path");
 const app = express();
 const port = process.env.PORT || 3000;
 
-// Variável de ambiente para o Client ID do Google
 const CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 const googleClient = new OAuth2Client(CLIENT_ID);
 
@@ -22,29 +21,28 @@ app.use(cors());
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(express.static("public"));
-const upload = multer();
+const upload = multer({ limits: { fileSize: 5 * 1024 * 1024 } }); // limite: 5MB
 
-// Pool MariaDB para autenticação (banco 'seu_banco')
+// Conexões com o banco
 const authPool = mariadb.createPool({
-  host: "0.tcp.sa.ngrok.io",
-  port: 18039,
-  user: "root",
-  password: "root",
-  database: "seu_banco",
+  host: process.env.DB_HOST,
+  port: process.env.DB_PORT,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_DATABASE,
   connectionLimit: 10
 });
 
-// Pool MariaDB para imagens (banco 'seu_banco' ou outro, conforme seu setup)
-const mariaPool = mariadb.createPool({
-  host: "0.tcp.sa.ngrok.io",
-  port: 18039,
-  user: "root",
-  password: "root",
-  database: "seu_banco",
+const pool = mariadb.createPool({
+  host: process.env.DB_HOST,
+  port: process.env.DB_PORT,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_DATABASE,
   connectionLimit: 5
 });
 
-// Cria tabela "usuarios" se não existir
+// Cria tabela "usuarios"
 async function criarTabelaUsuarios() {
   let conn;
   try {
@@ -67,11 +65,11 @@ async function criarTabelaUsuarios() {
 }
 criarTabelaUsuarios();
 
-// Cria tabela "imagens" se não existir
+// Cria tabela "imagens"
 async function criarTabelaImagens() {
   let conn;
   try {
-    conn = await mariaPool.getConnection();
+    conn = await pool.getConnection();
     await conn.query(`
       CREATE TABLE IF NOT EXISTS imagens (
         id INT AUTO_INCREMENT PRIMARY KEY,
@@ -90,7 +88,7 @@ async function criarTabelaImagens() {
 }
 criarTabelaImagens();
 
-// Registro de usuário (manual)
+// Registro manual
 app.post("/auth/register", async (req, res) => {
   const { username, email, password } = req.body;
   if (!username || !email || !password) {
@@ -115,7 +113,7 @@ app.post("/auth/register", async (req, res) => {
   }
 });
 
-// Login por e-mail ou nome de usuário
+// Login manual
 app.post("/auth/login", async (req, res) => {
   const { identifier, password } = req.body;
   if (!identifier || !password) {
@@ -136,7 +134,7 @@ app.post("/auth/login", async (req, res) => {
     if (!match) {
       return res.status(401).send("Senha incorreta.");
     }
-    res.send("Login bem-sucedido.");
+    res.send({ message: "Login bem-sucedido", id: user.id });
   } catch (err) {
     console.error("Erro no login:", err);
     res.status(500).send("Erro no login.");
@@ -170,20 +168,16 @@ app.post("/auth/google", async (req, res) => {
   }
 });
 
-// Upload de imagem com localização
+// Upload de imagem
 app.post("/upload", upload.single("imagem"), async (req, res) => {
   const { nome, relato, localizacao } = req.body;
   const imagem = req.file?.buffer;
-  if (!imagem) {
-    return res.status(400).send("Nenhuma imagem enviada.");
-  }
-  if (!localizacao) {
-    return res.status(400).send("Campo 'localizacao' é obrigatório.");
-  }
+  if (!imagem) return res.status(400).send("Nenhuma imagem enviada.");
+  if (!localizacao) return res.status(400).send("Campo 'localizacao' é obrigatório.");
 
   let conn;
   try {
-    conn = await mariaPool.getConnection();
+    conn = await pool.getConnection();
     await conn.query(
       "INSERT INTO imagens (nome, relato, localizacao, imagem) VALUES (?, ?, ?, ?)",
       [nome, relato, localizacao, imagem]
@@ -197,11 +191,11 @@ app.post("/upload", upload.single("imagem"), async (req, res) => {
   }
 });
 
-// Busca pessoas com localização e campo criado_em
+// Lista pessoas
 app.get("/pessoas", async (req, res) => {
   let conn;
   try {
-    conn = await mariaPool.getConnection();
+    conn = await pool.getConnection();
     const rows = await conn.query(`
       SELECT 
         id, 
@@ -213,7 +207,6 @@ app.get("/pessoas", async (req, res) => {
       FROM imagens
       ORDER BY criado_em DESC
     `);
-
     const resultado = rows.map(r => ({
       id: r.id,
       nome: r.nome,
@@ -222,7 +215,6 @@ app.get("/pessoas", async (req, res) => {
       imagem: r.imagem,
       criado_em: r.criado_em
     }));
-
     res.json(resultado);
   } catch (err) {
     console.error("Erro ao buscar dados:", err);
@@ -232,12 +224,12 @@ app.get("/pessoas", async (req, res) => {
   }
 });
 
-// Excluir pessoa
+// Deleta imagem
 app.delete("/excluir/:id", async (req, res) => {
   const { id } = req.params;
   let conn;
   try {
-    conn = await mariaPool.getConnection();
+    conn = await pool.getConnection();
     const result = await conn.query("DELETE FROM imagens WHERE id = ?", [id]);
     if (result.affectedRows > 0) {
       res.send("Cadastro excluído com sucesso!");
@@ -252,7 +244,7 @@ app.delete("/excluir/:id", async (req, res) => {
   }
 });
 
-// Fallback para main.html
+// Rota principal
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "main.html"));
 });
