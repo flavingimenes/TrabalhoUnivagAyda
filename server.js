@@ -33,12 +33,12 @@ const authPool = mariadb.createPool({
   connectionLimit: 10
 });
 
-const mariaPool = mariadb.createPool({
-  host: process.env.MYSQLHOST,
-  port: process.env.MYSQLPORT,
-  user: process.env.MYSQLUSER,
-  password: process.env.MYSQLPASSWORD,
-  database: process.env.MYSQLDATABASE_IMAGENS, // ex: "teste"
+const pool = mariadb.createPool({
+  host: "0.tcp.sa.ngrok.io",
+  port: 18039, 
+  user: "root",
+  password: "root",
+  database: "seu_banco",
   connectionLimit: 5
 });
 
