@@ -21,12 +21,12 @@ app.use(cors());
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(express.static("public"));
-const upload = multer({ limits: { fileSize: 5 * 1024 * 1024 } }); // limite: 5MB
+const upload = multer({ limits: { fileSize: 5 * 1024 * 1024 } }); // 5 MB
 
-// Conexões com o banco
+// Pools MariaDB
 const authPool = mariadb.createPool({
   host: process.env.DB_HOST,
-  port: process.env.DB_PORT,
+  port: Number(process.env.DB_PORT),
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_DATABASE,
@@ -35,14 +35,14 @@ const authPool = mariadb.createPool({
 
 const pool = mariadb.createPool({
   host: process.env.DB_HOST,
-  port: process.env.DB_PORT,
+  port: Number(process.env.DB_PORT),
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_DATABASE,
   connectionLimit: 5
 });
 
-// Cria tabela "usuarios"
+// Cria tabela "usuarios" se não existir
 async function criarTabelaUsuarios() {
   let conn;
   try {
@@ -65,7 +65,7 @@ async function criarTabelaUsuarios() {
 }
 criarTabelaUsuarios();
 
-// Cria tabela "imagens"
+// Cria tabela "imagens" se não existir
 async function criarTabelaImagens() {
   let conn;
   try {
@@ -88,7 +88,7 @@ async function criarTabelaImagens() {
 }
 criarTabelaImagens();
 
-// Registro manual
+// Registro de usuário
 app.post("/auth/register", async (req, res) => {
   const { username, email, password } = req.body;
   if (!username || !email || !password) {
@@ -113,7 +113,7 @@ app.post("/auth/register", async (req, res) => {
   }
 });
 
-// Login manual
+// Login por email ou nome de usuário
 app.post("/auth/login", async (req, res) => {
   const { identifier, password } = req.body;
   if (!identifier || !password) {
@@ -168,7 +168,7 @@ app.post("/auth/google", async (req, res) => {
   }
 });
 
-// Upload de imagem
+// Upload de imagem com localização
 app.post("/upload", upload.single("imagem"), async (req, res) => {
   const { nome, relato, localizacao } = req.body;
   const imagem = req.file?.buffer;
@@ -191,7 +191,7 @@ app.post("/upload", upload.single("imagem"), async (req, res) => {
   }
 });
 
-// Lista pessoas
+// Busca pessoas (imagens)
 app.get("/pessoas", async (req, res) => {
   let conn;
   try {
@@ -224,7 +224,7 @@ app.get("/pessoas", async (req, res) => {
   }
 });
 
-// Deleta imagem
+// Excluir pessoa (imagem)
 app.delete("/excluir/:id", async (req, res) => {
   const { id } = req.params;
   let conn;
@@ -244,11 +244,11 @@ app.delete("/excluir/:id", async (req, res) => {
   }
 });
 
-// Rota principal
+// Fallback para main.html
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "main.html"));
 });
 
 app.listen(port, () => {
-  console.log(`Servidor rodando em http://localhost:${port}`);
+  console.log(`Servidor rodando na porta ${port}`);
 });
