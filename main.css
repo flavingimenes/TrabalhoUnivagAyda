@@ -224,6 +224,9 @@ body.dark-mode textarea:focus {
       color: inherit;
       user-select: none;
     }
+    body.dark-mode .botao-troca{
+      color: yellow;
+    }
 
 /* Botão SAIR */
 .sair {
