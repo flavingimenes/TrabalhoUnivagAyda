@@ -4,9 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Cadastro com Imagem</title>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
   <link rel="stylesheet" href="main.css" />
-  <!-- Font Awesome (substitua SEU_CODIGO_AQUI pelo seu kit) -->
-  <script src="https://kit.fontawesome.com/SEU_CODIGO_AQUI.js" crossorigin="anonymous"></script>
   <style>
     .preview-container img {
       max-width: 200px;
@@ -14,14 +13,16 @@
     }
     li.card-pessoa {
       border: 1px solid #ccc;
-      padding: 10px;
+      padding: 0px 0px 10px 0px;
       margin-bottom: 10px;
       list-style: none;
+      border-radius: 20px 20px 0px 0px;
     }
     .votacao {
       display: flex;
       align-items: center;
       gap: 8px;
+      box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;
     }
     .votacao .score {
       min-width: 24px;
@@ -30,18 +31,20 @@
   </style>
 </head>
 <body>
-  <!-- Botão SAIR -->
- 
-
-  <button class="toggle-mode" id="toggleModoBtn" aria-pressed="false">
-       <span class="texto-modo">Modo Escuro</span>
+<header>
+  <a href="index.html"><span class="material-symbols-outlined" style="font-size: 35px;">exit_to_app<span></a>
+  <div class="botao-troca">
+    <span class="material-symbols-outlined">routine</span>
+    <button class="toggle-mode" id="toggleModoBtn" aria-pressed="false">
+      <span class="toggle-handle"></span>
     </button>
+  </div>
+</header>
+  
+  
 
   <div class="container">
-    <!-- Botão de alternar modo escuro/claro -->
-    
-
-    <h2>Reportar Um Problema</h2>
+    <h2>Divulgar Um Problema</h2>
     <form id="formPessoa" enctype="multipart/form-data">
       <!-- Campo Nome com botão Anônimo -->
       <div class="field-group">
@@ -83,18 +86,18 @@
 
       <!-- Botão que abre a câmera -->
       <button type="button" class="camera-btn" id="btnAbrirCamera">
-        📸 Tirar foto com câmera
+        Tirar foto com a câmera
       </button>
 
-      <!-- Preview da imagem (selecionada pelo input ou capturada pela câmera) -->
+      <!-- Preview da imagem -->
       <div class="preview-container" id="previewContainer" style="display: none;">
         <img id="previewImagem" alt="Preview da imagem" />
         <button type="button" class="btn-remover" id="btnRemoverImagem">
-          ❌ Remover imagem
+           <span class="material-symbols-outlined">delete</span>Remover imagem
         </button>
       </div>
 
-      <button type="submit" class="btn-submit">Cadastrar</button>
+      <button type="submit" class="btn-submit">Publicar</button>
     </form>
   </div>
 
@@ -110,12 +113,12 @@
         ✖
       </button>
       <video id="cameraVideo" autoplay playsinline></video>
-      <div style="display: flex; gap: 10px; margin-top: 10px;">
+      <div style="display: flex; gap: 10px; margin-top: 10px; justify-content: center;">
         <button type="button" class="camera-btn" id="btnTrocarCamera">
-          🔄 Trocar Câmera
+          Trocar Câmera
         </button>
         <button type="button" class="camera-btn" id="btnCapturarFoto">
-          📸 Capturar
+          Capturar
         </button>
       </div>
     </div>
@@ -127,8 +130,38 @@
   </div>
 
   <script>
-    // Referências de elementos
+    // ================================
+    // 1) APENAS UM EVENT LISTENER para o SWITCH
+    // ================================
     const toggleModoBtn = document.getElementById("toggleModoBtn");
+    const textoModo = toggleModoBtn.querySelector(".texto-modo");
+
+    // Ao carregar a página, verifica localStorage para manter o tema salvo
+    if (localStorage.getItem("modoEscuro") === "true") {
+      document.body.classList.add("dark-mode");
+      toggleModoBtn.classList.add("active");
+      toggleModoBtn.setAttribute("aria-pressed", "true");
+      textoModo.textContent = "Modo Claro";
+    }
+
+    toggleModoBtn.addEventListener("click", () => {
+      document.body.classList.toggle("dark-mode");
+      const isDark = document.body.classList.contains("dark-mode");
+
+      // adiciona/remove “active” para mover a bolinha do switch
+      toggleModoBtn.classList.toggle("active", isDark);
+      toggleModoBtn.setAttribute("aria-pressed", isDark);
+
+      // altera o texto dentro do span .texto-modo
+      textoModo.textContent = isDark ? "Modo Claro" : "Modo Escuro";
+
+      // salva preferência
+      localStorage.setItem("modoEscuro", isDark);
+    });
+
+    // ================================
+    // 2) RESTANTE DAS FUNÇÕES DO SEU SCRIPT
+    // ================================
     const form = document.getElementById("formPessoa");
     const lista = document.getElementById("listaPessoas");
 
@@ -153,17 +186,7 @@
     let videoDevices = [];
     let currentFacingMode = null; // “user” ou “environment”
 
-    // 1) Alternar modo escuro/claro
-    toggleModoBtn.addEventListener("click", () => {
-      document.body.classList.toggle("dark-mode");
-      const isDark = document.body.classList.contains("dark-mode");
-      toggleModoBtn.setAttribute("aria-pressed", isDark);
-      toggleModoBtn.querySelector(".texto-modo").textContent = isDark
-        ? "Modo Claro"
-        : "Modo Escuro";
-    });
-
-    // 2) Botão “Anônimo”: torna o campo somente leitura (readonly)
+    // 2.1) Botão “Anônimo”: torna o campo somente leitura (readonly)
     btnAnonimo.addEventListener("click", () => {
       if (!inputNome.readOnly) {
         inputNome.value = "Anônimo";
@@ -179,7 +202,7 @@
       }
     });
 
-    // 3) Ao selecionar arquivo manualmente, remova espelhamento no preview
+    // 2.2) Ao selecionar arquivo manualmente, remova espelhamento no preview
     inputImagem.addEventListener("change", () => {
       previewContainer.classList.remove("invert-camera");
       const file = inputImagem.files[0];
@@ -193,7 +216,7 @@
       }
     });
 
-    // 4) Remover imagem
+    // 2.3) Remover imagem
     btnRemoverImagem.addEventListener("click", () => {
       inputImagem.value = "";
       previewImagem.src = "";
@@ -201,10 +224,9 @@
       previewContainer.classList.remove("invert-camera");
     });
 
-    // 5) Envio do formulário
+    // 2.4) Envio do formulário
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
-
       const formData = new FormData(form);
       try {
         await fetch("http://localhost:3000/upload", {
@@ -226,7 +248,7 @@
       }
     });
 
-    // 6) Carregar lista de pessoas/relatos (com localizacao e criado_em corrigido)
+    // 2.5) Carregar lista de pessoas/relatos (com pontuação e formatação de data)
     async function carregarPessoas() {
       try {
         const res = await fetch("http://localhost:3000/pessoas");
@@ -242,7 +264,6 @@
         lista.innerHTML = "";
 
         pessoas.forEach((p) => {
-          // Transformar string "YYYY-MM-DD HH:MM:SS" em Date válido:
           let criadoAt = p.criado_em;
           if (typeof criadoAt === "string") {
             criadoAt = criadoAt.replace(" ", "T");
@@ -253,21 +274,23 @@
           li.classList.add("card-pessoa");
           li.innerHTML = `
             <div class="votacao">
-              <button class="up btn-voto" data-id="${p.id}" aria-label="Curtir">▲</button>
+              <button class="up btn-voto" data-id="${p.id}" aria-label="Curtir">🡅</button>
               <span class="score" id="score_${p.id}">${p.pontos}</span>
-              <button class="down btn-voto" data-id="${p.id}" aria-label="Descurtir">▼</button>
+              <button class="down btn-voto" data-id="${p.id}" aria-label="Descurtir">🡇</button>
             </div>
-            <strong>${p.nome}</strong>
+            <strong>Usuario: ${p.nome}</strong>
             <img src="data:image/jpeg;base64,${p.imagem}" alt="Imagem de ${p.nome}" />
-            <p>${p.relato}</p>
-            <p><em>Localização:</em> ${p.localizacao}</p>
-            <p><em>Criado em:</em> ${dataFormatada}</p>
-            <button class="delete-btn" data-id="${p.id}" aria-label="Excluir relato">🗑️ Excluir</button>
+            <p id="relato">${p.relato}</p>
+            <p><em>Localização:</em> &ensp;${p.localizacao}</p>
+            <p><em>Criado em:</em> &ensp;${dataFormatada}</p>
+            <div class="votacao-bottom">
+              <button class="delete-btn" data-id="${p.id}" aria-label="Excluir relato">Excluir</button>
+              </div>
           `;
           lista.appendChild(li);
         });
 
-        // Eventos de votação
+        // Votação: +1 ou –1
         document.querySelectorAll(".btn-voto").forEach((btn) => {
           btn.addEventListener("click", (e) => {
             const id = e.currentTarget.getAttribute("data-id");
@@ -280,7 +303,7 @@
           });
         });
 
-        // Eventos de exclusão
+        // Exclusão de relato
         document.querySelectorAll(".delete-btn").forEach((btn) => {
           btn.addEventListener("click", async (e) => {
             const id = e.currentTarget.getAttribute("data-id");
@@ -298,7 +321,7 @@
       }
     }
 
-    // 7) Obter e iniciar câmeras
+    // 2.6) Obter e iniciar câmeras
     async function getVideoDevices() {
       const devices = await navigator.mediaDevices.enumerateDevices();
       videoDevices = devices.filter((d) => d.kind === "videoinput");
@@ -308,22 +331,16 @@
       if (stream) {
         stream.getTracks().forEach((track) => track.stop());
       }
-
       const constraints = {
-        video: {
-          deviceId: { exact: videoDevices[index].deviceId },
-        },
+        video: { deviceId: { exact: videoDevices[index].deviceId } },
         audio: false,
       };
-
       stream = await navigator.mediaDevices.getUserMedia(constraints);
       cameraVideo.srcObject = stream;
 
-      // Ajusta espelhamento conforme facingMode
       const [track] = stream.getVideoTracks();
       const settings = track.getSettings();
       currentFacingMode = settings.facingMode || null;
-
       if (currentFacingMode === "user") {
         cameraVideo.style.transform = "scaleX(-1)";
       } else {
@@ -331,23 +348,17 @@
       }
     }
 
-    // 8) Abrir pop-up da câmera apenas ao clicar em “Tirar foto com câmera”
     btnAbrirCamera.addEventListener("click", async () => {
       try {
         await getVideoDevices();
-
         if (videoDevices.length === 0) {
           alert("Nenhuma câmera foi encontrada.");
           return;
         }
-
         currentCameraIndex = 0;
         await startCamera(currentCameraIndex);
-
-        // Exibe o botão de trocar câmera só se houver mais de uma
         btnTrocarCamera.style.display =
           videoDevices.length > 1 ? "inline-block" : "none";
-
         cameraPopup.style.display = "flex";
         cameraPopup.setAttribute("aria-hidden", "false");
       } catch (err) {
@@ -356,7 +367,6 @@
       }
     });
 
-    // 9) Fechar pop-up da câmera
     btnFecharCamera.addEventListener("click", () => {
       if (stream) {
         stream.getTracks().forEach((track) => track.stop());
@@ -366,17 +376,14 @@
       cameraPopup.setAttribute("aria-hidden", "true");
     });
 
-    // 10) Trocar de câmera
     btnTrocarCamera.addEventListener("click", async () => {
       if (videoDevices.length <= 1) return;
       currentCameraIndex = (currentCameraIndex + 1) % videoDevices.length;
       await startCamera(currentCameraIndex);
     });
 
-    // 11) Capturar foto
     btnCapturarFoto.addEventListener("click", () => {
       if (!stream) return;
-
       const canvas = document.createElement("canvas");
       canvas.width = cameraVideo.videoWidth;
       canvas.height = cameraVideo.videoHeight;
@@ -402,7 +409,7 @@
       }, "image/png");
     });
 
-    // 12) Inicializa lista ao carregar a página
+    // 2.7) Inicializa lista ao carregar a página
     window.addEventListener("DOMContentLoaded", carregarPessoas);
   </script>
 </body>

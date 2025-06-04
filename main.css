@@ -1,19 +1,17 @@
+/* main.css */
 @charset "UTF-8";
 
 @font-face {
   font-family: 'font-apple-bold';
-  src: url(fonte/sf-pro-display/SFPRODISPLAYBOLD.OTF)
-    format('truetype');
+  src: url(fonte/sf-pro-display/SFPRODISPLAYBOLD.OTF) format('truetype');
 }
 @font-face {
   font-family: 'font-apple-bold-italic';
-  src: url(fonte/sf-pro-display/SFPRODISPLAYBLACKITALIC.OTF)
-    format('truetype');
+  src: url(fonte/sf-pro-display/SFPRODISPLAYBLACKITALIC.OTF) format('truetype');
 }
 @font-face {
   font-family: 'font-apple-medium';
-  src: url(fonte/sf-pro-display/SFPRODISPLAYMEDIUM.OTF)
-    format('truetype');
+  src: url(fonte/sf-pro-display/SFPRODISPLAYMEDIUM.OTF) format('truetype');
 }
 
 /* Reset básico */
@@ -31,7 +29,6 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-self: center;
 }
 
 /* Modo escuro */
@@ -42,10 +39,11 @@ body.dark-mode {
 
 /* Container principal */
 .container {
-  max-width: 600px;
-  margin: 10px;
+  width: 600px;
+  margin: auto;
+  margin-bottom: 40px;
   padding: 20px 10px;
-  background-color: rgba(123, 123, 125, 0.2);
+  background-color: white;
   border-radius: 15px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
   transition: background 0.3s, box-shadow 0.3s;
@@ -85,6 +83,7 @@ form {
   border-radius: 8px;
   border: 1px solid #ccc;
   transition: border 0.3s, background-color 0.3s;
+  background-color: #D9D9D9;
 }
 
 #inputNome:focus {
@@ -97,6 +96,7 @@ body.dark-mode #inputNome {
   background-color: #2a2a2a;
   border-color: #555;
   color: #f0f0f0;
+  
 }
 
 body.dark-mode #inputNome:focus {
@@ -144,6 +144,7 @@ textarea {
   border-radius: 8px;
   border: 1px solid #ccc;
   transition: border 0.3s, background-color 0.3s;
+  background-color: #D9D9D9;
 }
 
 input:not(#inputNome):focus,
@@ -164,6 +165,64 @@ body.dark-mode input:not(#inputNome):focus,
 body.dark-mode textarea:focus {
   background-color: #333;
 }
+
+/* Botão alternar modo (Switch) */
+  header{
+    height: 50px;
+    background-color: #282828;
+    align-content: center;
+    margin-bottom: 25px;
+  }
+
+  header > a{
+    color: white;
+    margin-left: 15px;
+  }
+
+  .botao-troca{
+    display: inline-flex;
+    float: right;
+    color: white;
+    gap: 10px;
+  }
+  .toggle-mode {
+      width: 50px;
+      height: 29px;
+      background-color: #000000cf;
+      border: 2px solid #d0e246;
+      border-radius: 13px;
+      position: relative;
+      cursor: pointer;
+      transition: background-color 0.3s, border-color 0.3s;
+      align-self: flex-end;
+      margin-right: 15px;
+      display: flex;
+      align-items: center;
+    }
+    .toggle-mode .toggle-handle {
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 22px;
+      height: 22px;
+      background-color: #ffffff;
+      border-radius: 50%;
+      transition: transform 0.3s;
+    }
+    .toggle-mode.active {
+      background-color: #d0e246;
+      border-color: #000000cf;
+    }
+    .toggle-mode.active .toggle-handle {
+      transform: translateX(24px);
+    }
+    .toggle-mode .texto-modo {
+      font-size: 0.7rem;
+      font-weight: bold;
+      right: -90px; /* ajusta para ficar fora do “switch” */
+      color: inherit;
+      user-select: none;
+    }
 
 /* Botão SAIR */
 .sair {
@@ -186,44 +245,25 @@ body.dark-mode textarea:focus {
   transform: translateY(-2px);
 }
 
-/* Botão alternar modo */
-.toggle-mode {
-  background-color: #000000cf;
-  border: 2px solid #d0e246;
-  color: #d0e246;
-  align-self: flex-end;
-  padding: 8px 14px;
-  border-radius: 8px;
-  font-weight: bold;
-  transition: background-color 0.3s, color 0.3s, transform 0.2s;
-  cursor: pointer;
-  margin-right: 55px;
-  margin-top: 30px;
-}
-
-.toggle-mode:hover {
-  background-color: #c9d470;
-  color: #000000cf;
-  transform: translateY(-2px);
-}
-
 /* Input file customizado */
 .custom-file-upload {
   display: inline-block;
   padding: 12px 20px;
-  background-color: #6c63ff;
-  color: #fff;
+  background-color: #D4D494;
+  color: black;
   border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.3s, transform 0.2s;
   user-select: none;
   text-align: center;
   font-family: 'font-apple-medium', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  font-size: medium;
+  font-size: larger;
+  box-shadow: rgb(0 0 0 / 35%) 1px 4px 4px 0px, rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
 }
 
+
 .custom-file-upload:hover {
-  background-color: #574fd6;
+  background-color: #b6b674;
   transform: scale(1.03);
 }
 
@@ -233,19 +273,20 @@ body.dark-mode textarea:focus {
 
 /* Botões de câmera */
 .camera-btn {
-  background-color: #28a745;
-  color: #fff;
+  background-color: #D4D494;
+  color: black;
   border: none;
   padding: 12px 35px;
   border-radius: 8px;
   transition: background-color 0.3s, transform 0.2s;
   cursor: pointer;
   font-family: 'font-apple-medium', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  font-size: medium;
+  font-size: larger;
+  box-shadow: rgb(0 0 0 / 35%) 1px 4px 4px 0px, rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
 }
 
 .camera-btn:hover {
-  background-color: #218838;
+  background-color: #b6b674;
   transform: translateY(-2px);
 }
 
@@ -277,27 +318,39 @@ body.dark-mode textarea:focus {
   font-size: 1.2rem;
   cursor: pointer;
   transition: color 0.2s;
+  height: 44px;
+  width: 200px;
+  background-color: rgb(240, 111, 111);
+  border-radius: 15px;
+  font-family: 'font-apple-bold', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  justify-content: center;
+    display: flex;
+    align-items: center;
+    gap: 2px;
 }
 
+
 .btn-remover:hover {
-  color: #dc3545;
+  color: #720e0e;
 }
 
 /* Botão de enviar (Cadastrar) */
 .btn-submit {
-  background-color: #007bff;
-  color: #fff;
+  background-color: black;
+  color: rgb(228, 228, 44);
   border: none;
   padding: 12px;
   border-radius: 8px;
   transition: background-color 0.3s, transform 0.2s;
   cursor: pointer;
   font-family: 'font-apple-medium', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  font-size: medium;
+  font-size: larger;
+  border: solid;
+  box-shadow: rgb(0 0 0 / 35%) 1px 4px 4px 0px, rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
 }
 
 .btn-submit:hover {
-  background-color: #0056b3;
+  background-color: #000000d2;
   transform: translateY(-2px);
 }
 
@@ -310,14 +363,20 @@ body.dark-mode textarea:focus {
 
 /* Card de cada relato */
 #listaPessoas li {
-  background-color: #fafafa;
+  background-color: #D9D9D9;
   border: 1px solid #ddd;
   border-radius: 10px;
   display: flex;
   flex-direction: column;
-  margin-bottom: 20px;
+  margin-bottom: 50px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   transition: background-color 0.3s;
+  border-radius: 20px;
+  padding-bottom: 0px;
+}
+
+#relato{
+  text-align: center;
 }
 
 body.dark-mode #listaPessoas li {
@@ -335,6 +394,7 @@ body.dark-mode #listaPessoas li {
 
 #listaPessoas li p {
   padding: 15px;
+  font-family: 'font-apple-medium', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 #listaPessoas li img {
@@ -347,7 +407,7 @@ body.dark-mode #listaPessoas li {
 /* Botão de exclusão dentro do card */
 .delete-btn {
   align-self: flex-end;
-  margin: 0 10px 10px 0;
+  margin: 10px 10px 10px 0;
   padding: 8px 16px;
   background-color: #dc3545;
   border: none;
@@ -368,7 +428,25 @@ body.dark-mode #listaPessoas li {
   align-items: center;
   gap: 8px;
   padding: 8px;
-  background-color: #e9e9e9;
+  padding-left: 18px;
+  background-color: #b7b5b5;
+  border-radius: 20px 20px 0px 0px;
+  font-size: x-large;
+}
+
+.votacao-bottom {
+  width: auto;
+  height: 57px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px;
+  padding-left: 18px;
+  background-color: #b7b5b5;
+  border-radius: 0px 0px 20px 20px;
+  font-size: x-large;
+  box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;
+  justify-content: flex-end;
 }
 
 body.dark-mode .votacao {
@@ -378,7 +456,7 @@ body.dark-mode .votacao {
 .btn-voto {
   background: none;
   border: none;
-  font-size: 1.2rem;
+  font-size: 1.9rem;
   cursor: pointer;
   transition: color 0.2s;
 }
@@ -409,7 +487,7 @@ body.dark-mode .votacao {
 
 .camera-content {
   background: #fff;
-  padding: 15px 20px 20px 20px;
+  padding: 35px 20px 20px 20px;
   border-radius: 12px;
   text-align: center;
   position: relative;
@@ -443,7 +521,6 @@ body.dark-mode .votacao {
 
 /* Botão de capturar dentro do pop-up */
 #btnCapturarFoto {
-  margin-top: 10px;
   padding: 12px 35px;
   background-color: #28a745;
   color: #fff;
@@ -459,19 +536,26 @@ body.dark-mode .votacao {
 }
 
 video.mirror {
-  transform: scaleX(-1); /* inverte horizontalmente */
+  transform: scaleX(-1);
 }
-
 
 /* Responsividade */
 @media (max-width: 768px) {
   body {
-    background-color: white;
+    background-color: #D9D9D9;
+  }
+
+  .container{
+    width: auto;
+    margin: 10px 8px;
   }
 
   .toggle-mode {
-    margin-left: 55%;
-    margin-right: 15px;
+
+  }
+
+  .botao-troca{
+    padding-top: 1%;
   }
 
   #listaPessoas li p {
