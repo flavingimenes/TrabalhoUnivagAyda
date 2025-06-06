@@ -49,7 +49,25 @@ body.dark-mode {
   transition: background 0.3s, box-shadow 0.3s;
 }
 
+
 body.dark-mode .container {
+  background-color: #101010;
+  box-shadow: 0 5px 15px rgba(255, 255, 255, 0.05);
+}
+
+.container-relato {
+  width: 600px;
+  margin: auto;
+  margin-bottom: 40px;
+  padding: 20px 10px;
+  background-color: white;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  transition: background 0.3s, box-shadow 0.3s;
+}
+
+
+body.dark-mode .container-relato {
   background-color: #101010;
   box-shadow: 0 5px 15px rgba(255, 255, 255, 0.05);
 }
@@ -559,6 +577,11 @@ video.mirror {
     margin: 10px 8px;
   }
 
+  .container-relato{
+    width: auto;
+    margin: 10px 8px;
+  }
+
   .toggle-mode {
 
   }
@@ -574,4 +597,22 @@ video.mirror {
   .delete-btn {
     margin-bottom: 10px;
   }
+}
+
+@media (min-width: 1400px){
+
+  .position-monitor-flex{
+  display: flex;
+  }
+
+  .container{
+    margin: 10px;
+    margin-left: 80px;
+    height: 100%;
+  }
+
+  .container-relato{
+    margin-left: 150px;
+  }
+
 }

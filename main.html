@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="main.css" />
   <style>
     .preview-container img {
-      max-width: 200px;
+      margin-bottom: 10px;
       margin-top: 10px;
     }
     li.card-pessoa {
@@ -43,90 +43,84 @@
   
   
 
-  <div class="container">
-    <h2>Divulgar Um Problema</h2>
-    <form id="formPessoa" enctype="multipart/form-data">
-      <!-- Campo Nome com botão Anônimo -->
-      <div class="field-group">
+  <div class="position-monitor-flex">
+    <div class="container">
+      <h2>Divulgar Um Problema</h2>
+      <form id="formPessoa" enctype="multipart/form-data">
+        <!-- Campo Nome com botão Anônimo -->
+        <div class="field-group">
+          <input
+            type="text"
+            name="nome"
+            id="inputNome"
+            placeholder="Nome"
+            required
+          />
+          <button type="button" class="btn-anonimo" id="btnAnonimo">
+            Anônimo?
+          </button>
+        </div>
+        <!-- Campo Relato -->
+        <input type="text" name="relato" placeholder="Relato" required />
+        <!-- NOVO: Campo Localização -->
         <input
           type="text"
-          name="nome"
-          id="inputNome"
-          placeholder="Nome"
+          name="localizacao"
+          id="inputLocalizacao"
+          placeholder="Localização"
           required
         />
-        <button type="button" class="btn-anonimo" id="btnAnonimo">
-          Anônimo?
+        <!-- Upload de arquivo -->
+        <label class="custom-file-upload">
+          <input
+            type="file"
+            name="imagem"
+            accept="image/*"
+            id="inputImagem"
+            required
+          />
+          <i class="fas fa-upload"></i> Escolher imagem
+        </label>
+        <!-- Botão que abre a câmera -->
+        <button type="button" class="camera-btn" id="btnAbrirCamera">
+          Tirar foto com a câmera
         </button>
-      </div>
-
-      <!-- Campo Relato -->
-      <input type="text" name="relato" placeholder="Relato" required />
-
-      <!-- NOVO: Campo Localização -->
-      <input
-        type="text"
-        name="localizacao"
-        id="inputLocalizacao"
-        placeholder="Localização"
-        required
-      />
-
-      <!-- Upload de arquivo -->
-      <label class="custom-file-upload">
-        <input
-          type="file"
-          name="imagem"
-          accept="image/*"
-          id="inputImagem"
-          required
-        />
-        <i class="fas fa-upload"></i> Escolher imagem
-      </label>
-
-      <!-- Botão que abre a câmera -->
-      <button type="button" class="camera-btn" id="btnAbrirCamera">
-        Tirar foto com a câmera
-      </button>
-
-      <!-- Preview da imagem -->
-      <div class="preview-container" id="previewContainer" style="display: none;">
-        <img id="previewImagem" alt="Preview da imagem" />
-        <button type="button" class="btn-remover" id="btnRemoverImagem">
-           <span class="material-symbols-outlined">delete</span>Remover imagem
+        <!-- Preview da imagem -->
+        <div class="preview-container" id="previewContainer" style="display: none;">
+          <img id="previewImagem" alt="Preview da imagem" />
+          <button type="button" class="btn-remover" id="btnRemoverImagem">
+             <span class="material-symbols-outlined">delete</span>Remover imagem
+          </button>
+        </div>
+        <button type="submit" class="btn-submit">Publicar</button>
+      </form>
+    </div>
+    <!-- Pop-up da câmera -->
+    <div
+      id="cameraPopup"
+      class="camera-popup"
+      style="display: none;"
+      aria-hidden="true"
+    >
+      <div class="camera-content">
+        <button type="button" class="close-popup" id="btnFecharCamera">
+          ✖
         </button>
-      </div>
-
-      <button type="submit" class="btn-submit">Publicar</button>
-    </form>
-  </div>
-
-  <!-- Pop-up da câmera -->
-  <div
-    id="cameraPopup"
-    class="camera-popup"
-    style="display: none;"
-    aria-hidden="true"
-  >
-    <div class="camera-content">
-      <button type="button" class="close-popup" id="btnFecharCamera">
-        ✖
-      </button>
-      <video id="cameraVideo" autoplay playsinline></video>
-      <div style="display: flex; gap: 10px; margin-top: 10px; justify-content: center;">
-        <button type="button" class="camera-btn" id="btnTrocarCamera">
-          Trocar Câmera
-        </button>
-        <button type="button" class="camera-btn" id="btnCapturarFoto">
-          Capturar
-        </button>
+        <video id="cameraVideo" autoplay playsinline></video>
+        <div style="display: flex; gap: 10px; margin-top: 10px; justify-content: center;">
+          <button type="button" class="camera-btn" id="btnTrocarCamera">
+            Trocar Câmera
+          </button>
+          <button type="button" class="camera-btn" id="btnCapturarFoto">
+            Capturar
+          </button>
+        </div>
       </div>
     </div>
-  </div>
-
-  <div class="container">
-    <h2>Relatos Registrados</h2>
-    <ul id="listaPessoas"></ul>
+    <div class="container-relato">
+      <h2>Relatos Registrados</h2>
+      <ul id="listaPessoas"></ul>
+    </div>
   </div>
 
   <script>
