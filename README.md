@@ -1,4 +1,4 @@
-# TrabalhoUnivagAyda
+# Trabalho Univag Ayda
 
 Sistema web desenvolvido como parte de um projeto acadêmico na UNIVAG. A aplicação permite que cidadãos relatem problemas urbanos (como buracos, postes quebrados, vazamentos de água etc.) de forma visual, intuitiva e interativa.
 
