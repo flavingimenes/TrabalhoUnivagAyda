@@ -8,7 +8,8 @@ Sistema web desenvolvido como parte de um projeto acadêmico na UNIVAG. A aplica
 
 - **Node.js** (servidor HTTP em `server.js`)  
 - **HTML5** e **CSS3** para as páginas estáticas  
-- **JavaScript** para interatividade  
+- **JavaScript** para interatividade
+- **MariaDB** para banco de dados 
 - **Fontes personalizadas** (SF Pro Display)  
 - **Imagens reais** ilustrando problemas urbanos  
 
