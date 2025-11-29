@@ -34,19 +34,3 @@ O projeto foi construído utilizando as seguintes tecnologias:
 * **Imagens**: Acervo de imagens reais para ilustração fidedigna dos problemas.
 
 ---
-
-## 📦 Como Rodar o Projeto
-
-Para executar este projeto localmente, siga as instruções abaixo.
-
-### Pré-requisitos
-Certifique-se de ter instalado em sua máquina:
-* [Node.js](https://nodejs.org/)
-* [MariaDB](https://mariadb.org/) ou MySQL
-
-### Instalação
-
-1. **Clone o repositório**
-   ```bash
-   git clone [https://github.com/SEU-USUARIO/NOME-DO-REPO.git](https://github.com/SEU-USUARIO/NOME-DO-REPO.git)
-   cd NOME-DO-REPO
